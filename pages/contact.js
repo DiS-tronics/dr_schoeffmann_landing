@@ -1,8 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
-import remark from 'remark'
-import html from 'remark-html'
+import { marked } from 'marked'
 import Nav from '../components/Nav'
 
 export async function getStaticProps(){
@@ -10,8 +9,7 @@ export async function getStaticProps(){
   const file = path.join(dir,'contact.md')
   const raw = fs.readFileSync(file,'utf8')
   const { content } = matter(raw)
-  const processed = await remark().use(html).process(content)
-  const contentHtml = processed.toString()
+  const contentHtml = marked(content)
   return { props: { contentHtml } }
 }
 

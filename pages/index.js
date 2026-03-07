@@ -1,16 +1,14 @@
 import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
-import remark from 'remark'
-import html from 'remark-html'
+import { marked } from 'marked'
 
 export async function getStaticProps(){
   const dir = path.join(process.cwd(),'draft')
   const file = path.join(dir,'home.md')
   const raw = fs.readFileSync(file,'utf8')
   const { content } = matter(raw)
-  const processed = await remark().use(html).process(content)
-  const contentHtml = processed.toString()
+  const contentHtml = marked(content)
   return { props: { contentHtml } }
 }
 
