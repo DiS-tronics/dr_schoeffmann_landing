@@ -26,7 +26,7 @@ a{color:var(--color-primary)}
 }
 
 /* Buttons */
-.btn{@apply inline-flex items-center justify-center px-4 py-2 rounded-md font-medium}
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:0.5rem 1rem;border-radius:0.375rem;font-weight:500}
 .btn-primary{background:var(--color-accent); color:#fff}
 .btn-outline{border:1px solid rgba(0,0,0,0.08)}
 
