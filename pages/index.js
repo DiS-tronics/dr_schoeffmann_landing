@@ -1,7 +1,6 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
-import Hero from '../components/Hero'
 
 const benefits = [
   {
@@ -27,14 +26,26 @@ export default function Home() {
       <Head>
         <title>Ordination Dr. Thomas Schöffmann – Facharzt für Orthopädie &amp; Traumatologie</title>
         <meta name="description" content="Facharzt für Orthopädie und Traumatologie in Liebenfels. Wirbelsäulenchirurgie, Hüftendoprothetik, Schmerztherapie." />
+        <link rel="icon" href="/icon.png" />
       </Head>
 
-      <Hero
-        title="Herzlich Willkommen in der Ordination Dr. Schöffmann!"
-        subtitle="Facharzt für Orthopädie und Traumatologie – Liebenfels"
-        imageSrc="/images/home.jpg"
-        cta={{ href: '/contact', label: 'Termin vereinbaren' }}
-      />
+      {/* Hero — text only, no image */}
+      <div className="bg-gradient-to-br from-primary to-accent py-24">
+        <div className="max-w-4xl mx-auto px-4 text-center">
+          <h1 className="text-white text-4xl md:text-5xl font-bold leading-tight mb-6">
+            Herzlich Willkommen in der<br className="hidden md:block" /> Ordination Dr. Schöffmann!
+          </h1>
+          <p className="text-blue-100 text-xl mb-10">
+            Facharzt für Orthopädie und Traumatologie – Liebenfels
+          </p>
+          <Link
+            href="/contact"
+            className="inline-block bg-white text-primary font-bold px-10 py-4 rounded-xl hover:bg-blue-50 transition-colors text-lg shadow-lg"
+          >
+            Termin vereinbaren →
+          </Link>
+        </div>
+      </div>
 
       {/* Benefits */}
       <section className="py-16 bg-gray-50">
