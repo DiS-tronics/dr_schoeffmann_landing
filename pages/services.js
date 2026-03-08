@@ -2,6 +2,7 @@ import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
 import { marked } from 'marked'
+import { renderMarkdownToHtml } from '../lib/markdown'
 import Nav from '../components/Nav'
 
 export async function getStaticProps(){
@@ -9,7 +10,7 @@ export async function getStaticProps(){
   const file = path.join(dir,'services.md')
   const raw = fs.readFileSync(file,'utf8')
   const { content } = matter(raw)
-  const contentHtml = marked(content)
+  const contentHtml = renderMarkdownToHtml(content)
   return { props: { contentHtml } }
 }
 
