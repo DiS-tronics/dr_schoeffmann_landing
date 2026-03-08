@@ -71,8 +71,8 @@ export default function Services() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-10">
               {operative.slice(0, 4).map((op) => (
                 <div key={op.title} className="bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition-shadow">
-                  <div className="relative h-48">
-                    <Image src={op.img} alt={op.title} fill className="object-cover" sizes="(max-width: 640px) 100vw, 50vw" />
+                  <div className="relative h-64 bg-gray-50">
+                    <Image src={op.img} alt={op.title} fill className="object-contain p-2" sizes="(max-width: 640px) 100vw, 50vw" />
                   </div>
                   <div className="p-4">
                     <h4 className="font-semibold text-gray-900 mb-1">{op.title}</h4>
@@ -86,8 +86,8 @@ export default function Services() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-10">
               {operative.slice(4).map((op) => (
                 <div key={op.title} className="bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition-shadow">
-                  <div className="relative h-48">
-                    <Image src={op.img} alt={op.title} fill className="object-cover" sizes="(max-width: 640px) 100vw, 50vw" />
+                  <div className="relative h-64 bg-gray-50">
+                    <Image src={op.img} alt={op.title} fill className="object-contain p-2" sizes="(max-width: 640px) 100vw, 50vw" />
                   </div>
                   <div className="p-4">
                     <h4 className="font-semibold text-gray-900 mb-1">{op.title}</h4>

@@ -18,7 +18,7 @@ export default function Footer() {
         <div>
           <h3 className="text-white font-semibold mb-3">Navigation</h3>
           <ul className="flex flex-col gap-1 text-sm">
-            {[['/', 'Start'], ['/services', 'Leistungen'], ['/ordination', 'Ordination'], ['/about', 'Über mich'], ['/contact', 'Kontakt']].map(([href, label]) => (
+            {[['/', 'Start'], ['/services', 'Leistungen'], ['/ordination', 'Ordination'], ['/about', 'Über mich'], ['/contact', 'Kontakt'], ['/contact#impressum', 'Impressum']].map(([href, label]) => (
               <li key={href}><Link href={href} className="hover:text-white transition-colors">{label}</Link></li>
             ))}
           </ul>
