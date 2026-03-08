@@ -13,10 +13,15 @@ export async function getStaticProps(){
   return { props: { contentHtml } }
 }
 
+import Hero from '../components/Hero'
+
 export default function Home({ contentHtml }){
   return (
-    <main className="max-w-3xl mx-auto p-6">
-      <article dangerouslySetInnerHTML={{ __html: contentHtml }} className="prose" />
-    </main>
+    <>
+      <Hero />
+      <main className="max-w-3xl mx-auto p-6">
+        <article dangerouslySetInnerHTML={{ __html: contentHtml }} className="prose" />
+      </main>
+    </>
   )
 }
