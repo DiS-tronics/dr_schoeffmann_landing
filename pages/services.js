@@ -33,10 +33,10 @@ export default function Services() {
       </Head>
 
       {/* Header */}
-      <div className="bg-primary py-16">
+      <div className="bg-hero-beige py-16">
         <div className="max-w-6xl mx-auto px-4">
-          <h1 className="text-4xl font-bold text-white mb-3">Leistungen</h1>
-          <p className="text-blue-100 text-lg">Therapraxis Liebenfels – alles aus einer Hand</p>
+          <h1 className="text-4xl font-bold text-gray-900 mb-3">Leistungen</h1>
+          <p className="text-gray-700 text-lg">Therapraxis Liebenfels – alles aus einer Hand</p>
         </div>
       </div>
 
@@ -110,11 +110,11 @@ export default function Services() {
       </section>
 
       {/* CTA */}
-      <section className="py-12 bg-primary">
+      <section className="py-12 bg-banner-gray">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-2xl font-bold text-white mb-4">Termin vereinbaren</h2>
-          <p className="text-blue-100 mb-6">Für alle Leistungen ausschließlich nach vorheriger Terminvereinbarung</p>
-          <Link href="/contact" className="inline-block bg-white text-primary font-bold px-8 py-3 rounded-xl hover:bg-blue-50 transition-colors">
+          <p className="text-white mb-6">Für alle Leistungen ausschließlich nach vorheriger Terminvereinbarung</p>
+          <Link href="/contact" className="inline-block bg-white text-banner-gray font-bold px-8 py-3 rounded-xl hover:bg-gray-100 transition-colors">
             Jetzt Termin anfragen →
           </Link>
         </div>

@@ -9,10 +9,10 @@ export default function Contact() {
         <meta name="description" content="Kontaktieren Sie uns für eine Terminvereinbarung. Ordination in Liebenfels, Tel.: +43 676 48 396 48." />
       </Head>
 
-      <div className="bg-primary py-16">
+      <div className="bg-hero-beige py-16">
         <div className="max-w-6xl mx-auto px-4">
-          <h1 className="text-4xl font-bold text-white mb-3">Kontakt &amp; Anfahrt</h1>
-          <p className="text-blue-100 text-lg">Wir freuen uns auf Ihre Nachricht</p>
+          <h1 className="text-4xl font-bold text-gray-900 mb-3">Kontakt &amp; Anfahrt</h1>
+          <p className="text-gray-700 text-lg">Wir freuen uns auf Ihre Nachricht</p>
         </div>
       </div>
 

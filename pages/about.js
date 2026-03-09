@@ -9,10 +9,10 @@ export default function About() {
         <meta name="description" content="Facharzt für Orthopädie und Traumatologie. Spezialisierung in Wirbelsäulenchirurgie und Hüftendoprothetik." />
       </Head>
 
-      <div className="bg-primary py-16">
+      <div className="bg-hero-beige py-16">
         <div className="max-w-6xl mx-auto px-4">
-          <h1 className="text-4xl font-bold text-white mb-3">Über mich</h1>
-          <p className="text-blue-100 text-lg">Dr. Thomas Schöffmann</p>
+          <h1 className="text-4xl font-bold text-gray-900 mb-3">Über mich</h1>
+          <p className="text-gray-700 text-lg">Dr. Thomas Schöffmann</p>
         </div>
       </div>
 

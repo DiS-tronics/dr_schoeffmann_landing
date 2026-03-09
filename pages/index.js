@@ -30,7 +30,7 @@ export default function Home() {
       </Head>
 
       {/* Hero */}
-      <div className="bg-gradient-to-br from-primary to-accent py-12 lg:py-24">
+      <div className="bg-hero-beige py-12 lg:py-24">
         <div className="max-w-6xl mx-auto px-4 flex flex-col-reverse lg:flex-row items-center gap-8 lg:gap-10">
           <div className="flex-shrink-0 flex justify-center">
             <Image
@@ -42,15 +42,15 @@ export default function Home() {
             />
           </div>
           <div className="flex-1 text-center">
-            <h1 className="text-white text-4xl md:text-4xl font-bold leading-tight mb-6">
+            <h1 className="text-gray-900 text-4xl md:text-4xl font-bold leading-tight mb-6">
               Herzlich Willkommen in der<br className="hidden md:block" /> Ordination Dr. Schöffmann!
             </h1>
-            <p className="text-blue-100 text-xl mb-10">
+            <p className="text-gray-700 text-xl mb-10">
               Facharzt für Orthopädie und Traumatologie – Liebenfels
             </p>
             <Link
               href="/about"
-              className="inline-block bg-white text-primary font-bold px-10 py-4 rounded-xl hover:bg-blue-50 transition-colors text-lg shadow-lg"
+              className="inline-block bg-footer-brown text-hero-beige font-bold px-10 py-4 rounded-xl hover:bg-gray-700 transition-colors text-lg shadow-lg"
             >
               Weiterlesen
             </Link>
@@ -81,15 +81,15 @@ export default function Home() {
       </section>
 
       {/* CTA Banner */}
-      <section className="py-16 bg-primary">
+      <section className="py-16 bg-banner-gray">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold text-white mb-4">Machen Sie noch heute einen Termin</h2>
-          <p className="text-blue-100 text-lg mb-8 max-w-2xl mx-auto">
+          <p className="text-white text-lg mb-8 max-w-2xl mx-auto">
             Haben Sie akute Schmerzen? Wir werden versuchen, Sie umgehend zu behandeln. Kurzfristige Termine sind möglich!
           </p>
           <Link
             href="/contact"
-            className="inline-block bg-white text-primary font-bold px-10 py-4 rounded-xl hover:bg-blue-50 transition-colors text-lg shadow-lg"
+            className="inline-block bg-white text-banner-gray font-bold px-10 py-4 rounded-xl hover:bg-gray-100 transition-colors text-lg shadow-lg"
           >
             Jetzt Termin vereinbaren
           </Link>

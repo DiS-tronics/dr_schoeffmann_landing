@@ -20,10 +20,10 @@ export default function Ordination() {
         <meta name="description" content="Einblicke in die Ordination Dr. Schöffmann in Liebenfels." />
       </Head>
 
-      <div className="bg-primary py-16">
+      <div className="bg-hero-beige py-16">
         <div className="max-w-6xl mx-auto px-4">
-          <h1 className="text-4xl font-bold text-white mb-3">Ordination</h1>
-          <p className="text-blue-100 text-lg">Eindrücke aus der Therapraxis Liebenfels</p>
+          <h1 className="text-4xl font-bold text-gray-900 mb-3">Ordination</h1>
+          <p className="text-gray-700 text-lg">Eindrücke aus der Therapraxis Liebenfels</p>
         </div>
       </div>
 
