@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-900 text-gray-300 mt-16">
+    <footer className="bg-gray-900 text-gray-300">
       <div className="max-w-6xl mx-auto px-4 py-12 grid grid-cols-1 md:grid-cols-3 gap-8">
         <div>
           <h3 className="text-white font-bold text-lg mb-3">Dr. Thomas Schöffmann</h3>
@@ -21,6 +21,7 @@ export default function Footer() {
             {[['/', 'Start'], ['/services', 'Leistungen'], ['/ordination', 'Ordination'], ['/about', 'Über mich'], ['/contact', 'Kontakt'], ['/contact#impressum', 'Impressum']].map(([href, label]) => (
               <li key={href}><Link href={href} className="hover:text-white transition-colors">{label}</Link></li>
             ))}
+            <li><a href="/Datenschutz.pdf" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Datenschutz</a></li>
           </ul>
         </div>
       </div>

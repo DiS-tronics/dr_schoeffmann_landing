@@ -29,21 +29,32 @@ export default function Home() {
         <link rel="icon" href="/icon.png" />
       </Head>
 
-      {/* Hero — text only, no image */}
-      <div className="bg-gradient-to-br from-primary to-accent py-24">
-        <div className="max-w-4xl mx-auto px-4 text-center">
-          <h1 className="text-white text-4xl md:text-5xl font-bold leading-tight mb-6">
-            Herzlich Willkommen in der<br className="hidden md:block" /> Ordination Dr. Schöffmann!
-          </h1>
-          <p className="text-blue-100 text-xl mb-10">
-            Facharzt für Orthopädie und Traumatologie – Liebenfels
-          </p>
-          <Link
-            href="/contact"
-            className="inline-block bg-white text-primary font-bold px-10 py-4 rounded-xl hover:bg-blue-50 transition-colors text-lg shadow-lg"
-          >
-            Termin vereinbaren →
-          </Link>
+      {/* Hero */}
+      <div className="bg-gradient-to-br from-primary to-accent py-12 lg:py-24">
+        <div className="max-w-6xl mx-auto px-4 flex flex-col-reverse lg:flex-row items-center gap-8 lg:gap-10">
+          <div className="flex-shrink-0 flex justify-center">
+            <Image
+              src="/images/thomas.png"
+              alt="Dr. Thomas Schöffmann"
+              width={300}
+              height={400}
+              className="object-cover rounded-xl shadow-xl"
+            />
+          </div>
+          <div className="flex-1 text-center">
+            <h1 className="text-white text-4xl md:text-4xl font-bold leading-tight mb-6">
+              Herzlich Willkommen in der<br className="hidden md:block" /> Ordination Dr. Schöffmann!
+            </h1>
+            <p className="text-blue-100 text-xl mb-10">
+              Facharzt für Orthopädie und Traumatologie – Liebenfels
+            </p>
+            <Link
+              href="/about"
+              className="inline-block bg-white text-primary font-bold px-10 py-4 rounded-xl hover:bg-blue-50 transition-colors text-lg shadow-lg"
+            >
+              Weiterlesen
+            </Link>
+          </div>
         </div>
       </div>
 
@@ -80,7 +91,7 @@ export default function Home() {
             href="/contact"
             className="inline-block bg-white text-primary font-bold px-10 py-4 rounded-xl hover:bg-blue-50 transition-colors text-lg shadow-lg"
           >
-            Jetzt Termin vereinbaren →
+            Jetzt Termin vereinbaren
           </Link>
         </div>
       </section>

@@ -17,9 +17,12 @@ export default function Nav() {
   return (
     <nav className="sticky top-0 z-50 bg-white shadow-md">
       <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-        <Link href="/" className="flex flex-col leading-tight">
-          <span className="text-primary font-bold text-lg leading-tight">Dr. Thomas Schöffmann</span>
-          <span className="text-gray-500 text-xs">Facharzt für Orthopädie &amp; Traumatologie</span>
+        <Link href="/" className="flex items-center gap-3 leading-tight">
+          <img src="/images/logo.png" alt="Logo" className="h-10 w-auto" />
+          <div className="flex flex-col leading-tight">
+            <span className="font-bold text-lg leading-tight" style={{ color: '#898179' }}>Dr. Thomas Schöffmann</span>
+            <span className="text-gray-500 text-xs">Facharzt für Orthopädie &amp; Traumatologie</span>
+          </div>
         </Link>
 
         {/* Desktop */}
@@ -34,11 +37,6 @@ export default function Nav() {
               </Link>
             </li>
           ))}
-          <li>
-            <Link href="/contact" className="bg-primary text-white text-sm font-medium px-4 py-2 rounded hover:bg-accent transition-colors">
-              Termin vereinbaren
-            </Link>
-          </li>
         </ul>
 
         {/* Hamburger */}
