@@ -22,8 +22,8 @@ export default function Ordination() {
 
       <div className="bg-hero-beige py-16">
         <div className="max-w-6xl mx-auto px-4">
-          <h1 className="text-4xl font-bold text-gray-900 mb-3">Ordination</h1>
-          <p className="text-gray-700 text-lg">Eindrücke aus der Therapraxis Liebenfels</p>
+          <h1 className="text-4xl font-bold text-footer-brown mb-3">Ordination</h1>
+          <p className="text-footer-brown text-lg">Eindrücke aus der Therapraxis Liebenfels</p>
         </div>
       </div>
 

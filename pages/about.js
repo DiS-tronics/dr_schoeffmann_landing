@@ -11,8 +11,8 @@ export default function About() {
 
       <div className="bg-hero-beige py-16">
         <div className="max-w-6xl mx-auto px-4">
-          <h1 className="text-4xl font-bold text-gray-900 mb-3">Über mich</h1>
-          <p className="text-gray-700 text-lg">Dr. Thomas Schöffmann</p>
+          <h1 className="text-4xl font-bold text-footer-brown mb-3">Über mich</h1>
+          <p className="text-footer-brown text-lg">Dr. Thomas Schöffmann</p>
         </div>
       </div>
 

@@ -11,8 +11,8 @@ export default function Contact() {
 
       <div className="bg-hero-beige py-16">
         <div className="max-w-6xl mx-auto px-4">
-          <h1 className="text-4xl font-bold text-gray-900 mb-3">Kontakt &amp; Anfahrt</h1>
-          <p className="text-gray-700 text-lg">Wir freuen uns auf Ihre Nachricht</p>
+          <h1 className="text-4xl font-bold text-footer-brown mb-3">Kontakt &amp; Anfahrt</h1>
+          <p className="text-footer-brown text-lg">Wir freuen uns auf Ihre Nachricht</p>
         </div>
       </div>
 
@@ -85,7 +85,7 @@ export default function Contact() {
       </section>
 
       {/* Impressum */}
-      <section id="impressum" className="py-12 bg-gray-50 border-t border-gray-200">
+      <section id="impressum" className="py-12 bg-gray-50 border-t border-gray-200 scroll-mt-12">
         <div className="max-w-4xl mx-auto px-4">
           <h2 className="text-2xl font-bold text-gray-900 mb-6">Impressum</h2>
           <div className="text-gray-600 text-sm space-y-2 prose-content">

@@ -42,10 +42,10 @@ export default function Home() {
             />
           </div>
           <div className="flex-1 text-center">
-            <h1 className="text-gray-900 text-4xl md:text-4xl font-bold leading-tight mb-6">
+            <h1 className="text-footer-brown text-4xl md:text-4xl font-bold leading-tight mb-6">
               Herzlich Willkommen in der<br className="hidden md:block" /> Ordination <span className="whitespace-nowrap">Dr. Schöffmann</span>!
             </h1>
-            <p className="text-gray-700 text-xl mb-10">
+            <p className="text-footer-brown text-xl mb-10">
               Facharzt für Orthopädie und Traumatologie – Liebenfels
             </p>
             <Link
