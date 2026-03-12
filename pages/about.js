@@ -1,7 +1,22 @@
 import Head from 'next/head'
 import Image from 'next/image'
+import { createReader } from '@keystatic/core/reader'
+import keystaticConfig from '../keystatic.config'
 
-export default function About() {
+export async function getStaticProps() {
+  const reader = createReader(process.cwd(), keystaticConfig)
+  const about = await reader.singletons.about.read()
+  return { props: { about: about ?? null } }
+}
+
+export default function About({ about }) {
+  const pageTitle = about?.pageTitle ?? 'Über mich'
+  const pageSubtitle = about?.pageSubtitle ?? 'Dr. Thomas Schöffmann'
+  const bioText = about?.bioText ?? ''
+  const education = about?.education ?? []
+  const career = about?.career ?? []
+  const memberships = about?.memberships ?? []
+
   return (
     <>
       <Head>
@@ -11,8 +26,8 @@ export default function About() {
 
       <div className="bg-hero-beige py-16">
         <div className="max-w-6xl mx-auto px-4">
-          <h1 className="text-4xl font-bold text-footer-brown mb-3">Über mich</h1>
-          <p className="text-footer-brown text-lg">Dr. Thomas Schöffmann</p>
+          <h1 className="text-4xl font-bold text-footer-brown mb-3">{pageTitle}</h1>
+          <p className="text-footer-brown text-lg">{pageSubtitle}</p>
         </div>
       </div>
 
@@ -36,46 +51,42 @@ export default function About() {
                 <p className="text-gray-500">Facharzt für Orthopädie und Traumatologie</p>
               </div>
 
-              <div className="prose-content">
-                <p className="text-gray-700">Geboren in St. Veit an der Glan, verheiratet, 1 Kind.</p>
-              </div>
+              {bioText && (
+                <div className="prose-content">
+                  <p className="text-gray-700">{bioText}</p>
+                </div>
+              )}
 
-              <div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-3">Ausbildung</h3>
-                <div className="space-y-2">
-                  {[
-                    ['Gymnasium Tanzenberg', ''],
-                    ['Matura HTL für Elektrotechnik, Klagenfurt', ''],
-                    ['Studium der Humanmedizin', 'Paracelsus Medizinische Privatuniversität Salzburg'],
-                    ['Promotion Dr.med.univ.', 'September 2014'],
-                  ].map(([title, sub]) => (
-                    <div key={title} className="flex items-start gap-3">
-                      <span className="text-accent mt-1 flex-shrink-0">▸</span>
-                      <div>
-                        <span className="text-gray-800 font-medium">{title}</span>
-                        {sub && <span className="text-gray-500 text-sm block">{sub}</span>}
+              {education.length > 0 && (
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-3">Ausbildung</h3>
+                  <div className="space-y-2">
+                    {education.map((item) => (
+                      <div key={item.institution} className="flex items-start gap-3">
+                        <span className="text-accent mt-1 flex-shrink-0">▸</span>
+                        <div>
+                          <span className="text-gray-800 font-medium">{item.institution}</span>
+                          {item.detail && <span className="text-gray-500 text-sm block">{item.detail}</span>}
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
 
-              <div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-3">Beruflicher Werdegang</h3>
-                <div className="space-y-2">
-                  {[
-                    ['2014–2016', 'Turnusarzt im KH der Barmherzigen Brüder St. Veit und UKH Klagenfurt'],
-                    ['2016–2021', 'Facharztausbildung im UKH Klagenfurt und EKH Klagenfurt'],
-                    ['Seit Dez. 2021', 'Facharzt für Orthopädie und Traumatologie im UKH Klagenfurt'],
-                    ['Seit Juni 2025', 'Oberarzt im UKH Klagenfurt am Wörthersee'],
-                  ].map(([year, desc]) => (
-                    <div key={year} className="flex gap-4">
-                      <span className="text-primary font-semibold text-sm w-28 flex-shrink-0 pt-0.5">{year}</span>
-                      <span className="text-gray-700">{desc}</span>
-                    </div>
-                  ))}
+              {career.length > 0 && (
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-3">Beruflicher Werdegang</h3>
+                  <div className="space-y-2">
+                    {career.map((item) => (
+                      <div key={item.years} className="flex gap-4">
+                        <span className="text-primary font-semibold text-sm w-28 flex-shrink-0 pt-0.5">{item.years}</span>
+                        <span className="text-gray-700">{item.description}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
 
               <div className="bg-blue-50 rounded-xl p-5">
                 <h3 className="text-lg font-semibold text-primary mb-2">Klinische Schwerpunkte</h3>
@@ -84,7 +95,7 @@ export default function About() {
             </div>
           </div>
 
-          {/* Teaching */}
+          {/* Teaching & Memberships */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm">
               <h3 className="text-xl font-bold text-gray-900 mb-4">Lehr- &amp; Vortragstätigkeit</h3>
@@ -104,13 +115,10 @@ export default function About() {
             <div className="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm">
               <h3 className="text-xl font-bold text-gray-900 mb-4">Mitgliedschaften</h3>
               <ul className="space-y-3">
-                {[
-                  'Österreichische Gesellschaft für Unfallchirurgie (ÖGU)',
-                  'Österreichische Gesellschaft für Wirbelsäulenchirurgie (ÖGWC)',
-                ].map(item => (
-                  <li key={item} className="flex items-start gap-3 text-gray-600 text-sm">
+                {memberships.map(item => (
+                  <li key={item.label} className="flex items-start gap-3 text-gray-600 text-sm">
                     <span className="text-primary flex-shrink-0 mt-0.5">◆</span>
-                    {item}
+                    {item.label}
                   </li>
                 ))}
               </ul>

@@ -1,0 +1,29 @@
+pageTitle: Über mich
+pageSubtitle: Dr. Thomas Schöffmann
+bioText: "Geboren in St. Veit an der Glan, verheiratet, 1 Kind."
+education:
+  - institution: Gymnasium Tanzenberg
+    detail: ""
+  - institution: "Matura HTL für Elektrotechnik, Klagenfurt"
+    detail: ""
+  - institution: Studium der Humanmedizin
+    detail: Paracelsus Medizinische Privatuniversität Salzburg
+  - institution: Promotion Dr.med.univ.
+    detail: September 2014
+career:
+  - years: 2014–2016
+    description: Turnusarzt im KH der Barmherzigen Brüder St. Veit und UKH Klagenfurt
+  - years: 2016–2021
+    description: Facharztausbildung im UKH Klagenfurt und EKH Klagenfurt
+  - years: Seit Dez. 2021
+    description: Facharzt für Orthopädie und Traumatologie im UKH Klagenfurt
+  - years: Seit Juni 2025
+    description: Oberarzt im UKH Klagenfurt am Wörthersee
+specializations:
+  - label: Wirbelsäulenchirurgie (Verletzungen und degenerative Erkrankungen)
+  - label: Hüftendoprothetik (AMIS Technik – minimalinvasiv)
+  - label: Kniearthroskopie
+  - label: Unfallchirurgie (Knochenbrüche, Sehnenrisse)
+memberships:
+  - label: Österreichische Gesellschaft für Orthopädie und orthopädische Chirurgie (ÖGO)
+  - label: Österreichische Gesellschaft für Unfallchirurgie (ÖGU)

@@ -1,0 +1,42 @@
+introText: "In der Therapraxis Liebenfels bekommen Sie alles aus einer Hand. Hier befinden sich Experten für den gesamten Stütz- und Bewegungsapparat. Neben Dr. Philipp Tomantschger (Spezialisierung in Handchirurgie) und Dr. Thomas Schöffmann (Spezialisierung in Wirbelsäulenchirurgie und Hüftendoprothetik) stehen auch ein Physiotherapeut und eine Heilmasseurin zur Verfügung."
+services:
+  - label: Befundbesprechung und Diagnosenaufklärung
+  - label: Therapievorschläge
+  - label: Zweitmeinungen
+  - label: Operationsaufklärungen
+  - label: "Weiter- bzw. Nachbehandlung nach operativen Eingriffen"
+  - label: "Schmerztherapie (nichtinvasiv und invasiv)"
+  - label: "Verordnung von Heilbehelfen (Mieder, Orthesen etc.)"
+  - label: Verordnung von speziellen Heilmaßnahmen (Physiotherapie)
+  - label: Infiltrationen an Wirbelsäule und Gelenken
+  - label: "Periradikuläre, epidural sacrale Schmerztherapie (Blockaden)"
+operativeProcedures:
+  - img: /images/service1.jpeg
+    title: Bruch des 1. Lendenwirbels
+    desc: Bruch des 1. Lendenwirbels mit Fehlstellung
+    category: spine
+  - img: /images/service2.jpeg
+    title: Stabilisierungsoperation
+    desc: Aufrichtung des Wirbelkörpers und Stabilisierungsoperation minimalinvasiv
+    category: spine
+  - img: /images/service3.jpeg
+    title: Degeneratives Wirbelgleiten
+    desc: "Degeneratives Wirbelgleiten L4/5 – operative Dekompression und Einbau eines Bandscheibencages mit Fusion"
+    category: spine
+  - img: /images/service4.jpeg
+    title: Verrenkungsbruch HWS
+    desc: Verrenkungsbruch zwischen 3. und 4. Halswirbel mit Stabilisierung von vorne mit Platte
+    category: spine
+  - img: /images/service5.jpeg
+    title: OP-Planung Hüfte
+    desc: "Planung vor der Operation anhand des Röntgenbildes (deutliche Abnützung beider Hüften)"
+    category: hip
+  - img: /images/service6.jpeg
+    title: Totalendoprothese Hüfte
+    desc: "Totalendoprothese des Hüftgelenkes (Pfanne und Kopf ersetzt)"
+    category: hip
+additionalProcedures:
+  - label: "Kniearthroskopie bei Meniskusschädigung"
+  - label: "Sämtliche akute unfallchirurgische Verletzungen (Knochenbrüche, Sehnenrisse, etc.)"
+  - label: Metallentfernungen nach knöcherner Heilung
+operativeNote: "Notwendige Operationen oder CT-gezielte Nervenwurzelblockaden werden im UKH Klagenfurt am Wörthersee von Dr. Schöffmann persönlich durchgeführt."

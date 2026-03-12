@@ -1,12 +1,26 @@
 import Head from 'next/head'
 import ContactForm from '../components/ContactForm'
+import { createReader } from '@keystatic/core/reader'
+import keystaticConfig from '../keystatic.config'
 
-export default function Contact() {
+export async function getStaticProps() {
+  const reader = createReader(process.cwd(), keystaticConfig)
+  const contact = await reader.singletons.contact.read()
+  return { props: { contact: contact ?? null } }
+}
+
+export default function Contact({ contact }) {
+  const address = contact?.address ?? 'Feldkirchnerstr. 2\n9556 Liebenfels, Österreich'
+  const phone = contact?.phone ?? '+43 676 48 396 48'
+  const email = contact?.email ?? 'ordination@dr-schoeffmann.at'
+  const hours = contact?.hours ?? 'Ausschließlich nach vorheriger Terminvereinbarung'
+  const arrivalInfo = contact?.arrivalInfo ?? ''
+
   return (
     <>
       <Head>
         <title>Kontakt &amp; Anfahrt – Ordination Dr. Thomas Schöffmann</title>
-        <meta name="description" content="Kontaktieren Sie uns für eine Terminvereinbarung. Ordination in Liebenfels, Tel.: +43 676 48 396 48." />
+        <meta name="description" content={`Kontaktieren Sie uns für eine Terminvereinbarung. Ordination in Liebenfels, Tel.: ${phone}.`} />
       </Head>
 
       <div className="bg-hero-beige py-16">
@@ -28,36 +42,38 @@ export default function Contact() {
                   <div className="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center flex-shrink-0 text-primary text-lg">📍</div>
                   <div>
                     <div className="font-semibold text-gray-900">Adresse</div>
-                    <div className="text-gray-600">Feldkirchnerstr. 2<br />9556 Liebenfels, Österreich</div>
+                    <div className="text-gray-600 whitespace-pre-line">{address}</div>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
                   <div className="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center flex-shrink-0 text-primary text-lg">📞</div>
                   <div>
                     <div className="font-semibold text-gray-900">Telefon</div>
-                    <a href="tel:+4367648396 48" className="text-primary hover:text-accent">+43 676 48 396 48</a>
+                    <a href={`tel:${phone.replace(/\s/g, '')}`} className="text-primary hover:text-accent">{phone}</a>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
                   <div className="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center flex-shrink-0 text-primary text-lg">✉️</div>
                   <div>
                     <div className="font-semibold text-gray-900">E-Mail</div>
-                    <a href="mailto:ordination@dr-schoeffmann.at" className="text-primary hover:text-accent">ordination@dr-schoeffmann.at</a>
+                    <a href={`mailto:${email}`} className="text-primary hover:text-accent">{email}</a>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
                   <div className="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center flex-shrink-0 text-primary text-lg">🕐</div>
                   <div>
                     <div className="font-semibold text-gray-900">Ordinationszeiten</div>
-                    <div className="text-gray-600">Ausschließlich nach vorheriger Terminvereinbarung</div>
+                    <div className="text-gray-600">{hours}</div>
                   </div>
                 </div>
               </div>
 
-              <div className="bg-blue-50 rounded-xl p-5 text-sm text-gray-600 mb-8">
-                <strong className="text-gray-800 block mb-1">Anfahrt</strong>
-                Die Ordination ist zentral in Liebenfels gelegen und sehr gut erreichbar — mit öffentlichen Verkehrsmitteln (Bus, Bahn) sowie mit dem PKW (gebührenfreie Parkplätze direkt vor der Ordination). Barrierefrei zugänglich.
-              </div>
+              {arrivalInfo && (
+                <div className="bg-blue-50 rounded-xl p-5 text-sm text-gray-600 mb-8">
+                  <strong className="text-gray-800 block mb-1">Anfahrt</strong>
+                  {arrivalInfo}
+                </div>
+              )}
 
               {/* Map */}
               <div className="rounded-2xl overflow-hidden shadow-md">
