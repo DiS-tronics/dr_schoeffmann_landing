@@ -17,6 +17,8 @@ export default function Services({ services }) {
   const additionalProcedures = services?.additionalProcedures ?? []
   const operativeNote = services?.operativeNote ?? ''
 
+  const extraSections = services?.extraSections ?? []
+
   const spineProcs = operativeProcedures.filter(p => p.category === 'spine')
   const hipProcs = operativeProcedures.filter(p => p.category === 'hip')
 
@@ -67,7 +69,7 @@ export default function Services({ services }) {
                   {spineProcs.map((op) => (
                     <div key={op.title} className="bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition-shadow">
                       <div className="relative h-64 bg-gray-50">
-                        <Image src={op.img} alt={op.title} fill className="object-contain p-2" sizes="(max-width: 640px) 100vw, 50vw" />
+                        <Image src={op.img.startsWith('/') ? op.img : `/images/${op.img}`} alt={op.title} fill className="object-contain p-2" sizes="(max-width: 640px) 100vw, 50vw" />
                       </div>
                       <div className="p-4">
                         <h4 className="font-semibold text-gray-900 mb-1">{op.title}</h4>
@@ -86,7 +88,7 @@ export default function Services({ services }) {
                   {hipProcs.map((op) => (
                     <div key={op.title} className="bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition-shadow">
                       <div className="relative h-64 bg-gray-50">
-                        <Image src={op.img} alt={op.title} fill className="object-contain p-2" sizes="(max-width: 640px) 100vw, 50vw" />
+                        <Image src={op.img.startsWith('/') ? op.img : `/images/${op.img}`} alt={op.title} fill className="object-contain p-2" sizes="(max-width: 640px) 100vw, 50vw" />
                       </div>
                       <div className="p-4">
                         <h4 className="font-semibold text-gray-900 mb-1">{op.title}</h4>
@@ -113,6 +115,54 @@ export default function Services({ services }) {
           </div>
         </div>
       </section>
+
+      {/* Extra sections added via CMS */}
+      {extraSections.length > 0 && (
+        <section className="py-12 bg-white">
+          <div className="max-w-6xl mx-auto px-4 space-y-8">
+            {extraSections.map((section, idx) => {
+              if (section.discriminant === 'paragraph') {
+                return (
+                  <div key={idx}>
+                    {section.value.heading && (
+                      <h3 className="text-xl font-bold text-gray-900 mb-3">{section.value.heading}</h3>
+                    )}
+                    <p className="text-gray-700 leading-relaxed whitespace-pre-line">{section.value.text}</p>
+                  </div>
+                )
+              }
+              if (section.discriminant === 'imageBlock') {
+                const src = section.value.image
+                return (
+                  <figure key={idx} className="rounded-2xl overflow-hidden shadow-sm">
+                    {src && (
+                      <div className="relative w-full h-80">
+                        <Image
+                          src={src.startsWith('/') ? src : `/images/${src}`}
+                          alt={section.value.caption ?? ''}
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
+                    )}
+                    {section.value.caption && (
+                      <figcaption className="px-4 py-2 text-sm text-gray-500 bg-gray-50">{section.value.caption}</figcaption>
+                    )}
+                  </figure>
+                )
+              }
+              if (section.discriminant === 'highlight') {
+                return (
+                  <div key={idx} className="bg-blue-50 border-l-4 border-primary rounded-xl p-5">
+                    <p className="text-gray-700 whitespace-pre-line">{section.value.text}</p>
+                  </div>
+                )
+              }
+              return null
+            })}
+          </div>
+        </section>
+      )}
 
       {/* CTA */}
       <section className="py-12 bg-banner-gray">

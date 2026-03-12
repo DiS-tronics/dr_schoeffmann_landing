@@ -1,5 +1,39 @@
 import { config, singleton, fields } from '@keystatic/core'
 
+// Reusable image field factory — images live in public/images/
+const imgField = (label) => fields.image({
+  label,
+  directory: 'public/images',
+  publicPath: '/images/',
+})
+
+// Reusable extra-sections blocks (paragraph / image+caption / highlight)
+const extraSectionsField = fields.blocks(
+  {
+    paragraph: {
+      label: 'Textabschnitt',
+      schema: {
+        heading: fields.text({ label: 'Überschrift (optional)' }),
+        text: fields.text({ label: 'Text', multiline: true }),
+      },
+    },
+    imageBlock: {
+      label: 'Bild mit Beschriftung',
+      schema: {
+        image: imgField('Bild'),
+        caption: fields.text({ label: 'Beschriftung (optional)' }),
+      },
+    },
+    highlight: {
+      label: 'Hinweisbox',
+      schema: {
+        text: fields.text({ label: 'Text', multiline: true }),
+      },
+    },
+  },
+  { label: 'Zusätzliche Sektionen' }
+)
+
 export default config({
   storage: {
     kind: process.env.NODE_ENV === 'production' ? 'github' : 'local',
@@ -19,7 +53,7 @@ export default config({
         heroSubtitle: fields.text({ label: 'Hero Untertitel' }),
         benefits: fields.array(
           fields.object({
-            img: fields.text({ label: 'Bild-Pfad (z.B. /images/benefits1.png)' }),
+            img: imgField('Vorteil Bild'),
             title: fields.text({ label: 'Titel' }),
             desc: fields.text({ label: 'Beschreibung', multiline: true }),
           }),
@@ -32,12 +66,23 @@ export default config({
 
     about: singleton({
       label: 'Über mich',
+      // contentField format: YAML front-matter + mdoc body for bioContent
       path: 'content/about',
-      format: { data: 'yaml' },
+      format: { contentField: 'bioContent' },
       schema: {
         pageTitle: fields.text({ label: 'Seitentitel' }),
         pageSubtitle: fields.text({ label: 'Untertitel' }),
-        bioText: fields.text({ label: 'Kurzbiografie', multiline: true }),
+        bioContent: fields.document({
+          label: 'Biografie',
+          formatting: {
+            inlineMarks: { bold: true, italic: true, underline: true },
+            listTypes: { ordered: true, unordered: true },
+            headingLevels: [2, 3],
+            blockTypes: { blockquote: true },
+            softBreaks: true,
+          },
+          links: true,
+        }),
         education: fields.array(
           fields.object({
             institution: fields.text({ label: 'Institution / Titel' }),
@@ -64,6 +109,7 @@ export default config({
           }),
           { label: 'Mitgliedschaften', itemLabel: (props) => props.fields.label.value }
         ),
+        extraSections: extraSectionsField,
       },
     }),
 
@@ -81,7 +127,7 @@ export default config({
         ),
         operativeProcedures: fields.array(
           fields.object({
-            img: fields.text({ label: 'Bild-Pfad' }),
+            img: imgField('Bild'),
             title: fields.text({ label: 'Eingriff Titel' }),
             desc: fields.text({ label: 'Beschreibung', multiline: true }),
             category: fields.select({
@@ -103,6 +149,7 @@ export default config({
           { label: 'Weitere operative Leistungen', itemLabel: (props) => props.fields.label.value }
         ),
         operativeNote: fields.text({ label: 'Hinweis operative Leistungen', multiline: true }),
+        extraSections: extraSectionsField,
       },
     }),
 
@@ -116,7 +163,7 @@ export default config({
         introText: fields.text({ label: 'Einleitungstext', multiline: true }),
         images: fields.array(
           fields.object({
-            src: fields.text({ label: 'Bild-Pfad' }),
+            src: imgField('Bild'),
             alt: fields.text({ label: 'Alt-Text' }),
           }),
           { label: 'Bilder', itemLabel: (props) => props.fields.alt.value }

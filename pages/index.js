@@ -5,7 +5,7 @@ import dynamic from 'next/dynamic'
 import { createReader } from '@keystatic/core/reader'
 import keystaticConfig from '../keystatic.config'
 import { Spotlight } from '../components/ui/Spotlight'
-import { HoverEffect } from '../components/ui/CardHoverEffect'
+import { WobbleCard } from '../components/ui/WobbleCard'
 
 // MovingBorder uses useAnimationFrame — must be client-side only
 const MovingBorder = dynamic(
@@ -26,11 +26,12 @@ export default function Home({ home }) {
   const ctaTitle = home?.ctaTitle ?? 'Machen Sie noch heute einen Termin'
   const ctaSubtitle = home?.ctaSubtitle ?? ''
 
-  const benefitItems = benefits.map(b => ({
-    title: b.title,
-    description: b.desc,
-    icon: b.img,
-  }))
+  // Distinct gradient per card slot (cycles if more/fewer than 3 cards)
+  const gradients = [
+    'bg-gradient-to-br from-primary to-blue-800',
+    'bg-gradient-to-br from-teal-600 to-teal-900',
+    'bg-gradient-to-br from-slate-600 to-slate-900',
+  ]
 
   return (
     <>
@@ -70,7 +71,7 @@ export default function Home({ home }) {
         </div>
       </div>
 
-      {/* Benefits with Card Hover Effect */}
+      {/* Benefits with WobbleCard */}
       <section className="py-16 bg-gray-50">
         <div className="max-w-6xl mx-auto px-4">
           <h2 className="text-3xl font-bold text-center text-gray-900 mb-4">Unsere Vorteile für Sie</h2>
@@ -78,7 +79,28 @@ export default function Home({ home }) {
             Als Facharzt für Orthopädie und Traumatologie decke ich das Spektrum der degenerativen Erkrankungen
             des Bewegungsapparates sowie das akute Spektrum der Unfallchirurgie ab.
           </p>
-          <HoverEffect items={benefitItems} />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {benefits.map((b, i) => (
+              <WobbleCard
+                key={b.title}
+                containerClassName={`${gradients[i % gradients.length]} min-h-[220px]`}
+              >
+                {b.img && (
+                  <div className="mb-4">
+                    <Image
+                      src={b.img.startsWith('/') ? b.img : `/images/${b.img}`}
+                      alt={b.title}
+                      width={48}
+                      height={48}
+                      className="object-contain"
+                    />
+                  </div>
+                )}
+                <h3 className="text-xl font-bold text-white mb-2">{b.title}</h3>
+                <p className="text-white/80 text-sm leading-relaxed">{b.desc}</p>
+              </WobbleCard>
+            ))}
+          </div>
         </div>
       </section>
 

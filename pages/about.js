@@ -1,21 +1,31 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import { createReader } from '@keystatic/core/reader'
+import { DocumentRenderer } from '@keystatic/core/renderer'
 import keystaticConfig from '../keystatic.config'
 
 export async function getStaticProps() {
   const reader = createReader(process.cwd(), keystaticConfig)
   const about = await reader.singletons.about.read()
-  return { props: { about: about ?? null } }
+  // bioContent is an async fn returned by the document field reader
+  const bioContent = about?.bioContent ? await about.bioContent() : []
+  // JSON round-trip strips `undefined` properties that Next.js cannot serialize
+  const safeBioContent = JSON.parse(JSON.stringify(bioContent))
+  return {
+    props: {
+      about: about ? { ...about, bioContent: safeBioContent } : null,
+    },
+  }
 }
 
 export default function About({ about }) {
   const pageTitle = about?.pageTitle ?? 'Über mich'
   const pageSubtitle = about?.pageSubtitle ?? 'Dr. Thomas Schöffmann'
-  const bioText = about?.bioText ?? ''
+  const bioContent = about?.bioContent ?? []
   const education = about?.education ?? []
   const career = about?.career ?? []
   const memberships = about?.memberships ?? []
+  const extraSections = about?.extraSections ?? []
 
   return (
     <>
@@ -51,9 +61,9 @@ export default function About({ about }) {
                 <p className="text-gray-500">Facharzt für Orthopädie und Traumatologie</p>
               </div>
 
-              {bioText && (
-                <div className="prose-content">
-                  <p className="text-gray-700">{bioText}</p>
+              {bioContent.length > 0 && (
+                <div className="prose prose-gray max-w-none text-gray-700">
+                  <DocumentRenderer document={bioContent} />
                 </div>
               )}
 
@@ -124,6 +134,52 @@ export default function About({ about }) {
               </ul>
             </div>
           </div>
+
+          {/* Extra sections added via CMS */}
+          {extraSections.length > 0 && (
+            <div className="mt-12 space-y-8">
+              {extraSections.map((section, idx) => {
+                if (section.discriminant === 'paragraph') {
+                  return (
+                    <div key={idx}>
+                      {section.value.heading && (
+                        <h3 className="text-xl font-bold text-gray-900 mb-3">{section.value.heading}</h3>
+                      )}
+                      <p className="text-gray-700 leading-relaxed whitespace-pre-line">{section.value.text}</p>
+                    </div>
+                  )
+                }
+                if (section.discriminant === 'imageBlock') {
+                  const src = section.value.image
+                  return (
+                    <figure key={idx} className="rounded-2xl overflow-hidden shadow-sm">
+                      {src && (
+                        <div className="relative w-full h-72">
+                          <Image
+                            src={src.startsWith('/') ? src : `/images/${src}`}
+                            alt={section.value.caption ?? ''}
+                            fill
+                            className="object-cover"
+                          />
+                        </div>
+                      )}
+                      {section.value.caption && (
+                        <figcaption className="px-4 py-2 text-sm text-gray-500 bg-gray-50">{section.value.caption}</figcaption>
+                      )}
+                    </figure>
+                  )
+                }
+                if (section.discriminant === 'highlight') {
+                  return (
+                    <div key={idx} className="bg-blue-50 border-l-4 border-primary rounded-xl p-5">
+                      <p className="text-gray-700 whitespace-pre-line">{section.value.text}</p>
+                    </div>
+                  )
+                }
+                return null
+              })}
+            </div>
+          )}
         </div>
       </section>
     </>

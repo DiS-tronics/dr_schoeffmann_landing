@@ -1,13 +1,13 @@
 heroTitle: "Herzlich Willkommen in der Ordination Dr. Schöffmann!"
 heroSubtitle: "Facharzt für Orthopädie und Traumatologie – Liebenfels"
 benefits:
-  - img: /images/benefits1.png
+  - img: benefits1.png
     title: Beste Versorgung
     desc: "Ausreichend Zeit für Ihre Anliegen — wir nehmen uns Zeit für Sie."
-  - img: /images/benefits2.png
+  - img: benefits2.png
     title: Schmerztherapie vor Ort
     desc: Infiltration und Blockaden direkt in der Ordination.
-  - img: /images/benefits3.png
+  - img: benefits3.png
     title: Ausführliche Aufklärung
     desc: Verständliche Erklärung von Diagnose und allen Therapiemöglichkeiten.
 ctaTitle: Machen Sie noch heute einen Termin

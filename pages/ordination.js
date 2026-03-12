@@ -49,7 +49,7 @@ export default function Ordination({ ordination }) {
                 className="relative aspect-video rounded-2xl overflow-hidden group shadow-sm hover:shadow-xl transition-shadow focus:outline-none focus:ring-2 focus:ring-accent"
               >
                 <Image
-                  src={img.src}
+                  src={img.src.startsWith('/') ? img.src : `/images/${img.src}`}
                   alt={img.alt}
                   fill
                   className="object-cover group-hover:scale-105 transition-transform duration-300"
@@ -72,7 +72,7 @@ export default function Ordination({ ordination }) {
         >
           <div className="relative max-w-4xl w-full max-h-[90vh] aspect-video" onClick={e => e.stopPropagation()}>
             <Image
-              src={images[selected].src}
+              src={images[selected].src.startsWith('/') ? images[selected].src : `/images/${images[selected].src}`}
               alt={images[selected].alt}
               fill
               className="object-contain"
