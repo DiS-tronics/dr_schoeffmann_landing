@@ -1,7 +1,7 @@
 ---
 title: "feat: Keystatic CMS + Aceternity UI Integration"
 type: feat
-status: active
+status: completed
 date: 2026-03-12
 ---
 
@@ -143,15 +143,15 @@ Each page maps to one Keystatic **singleton** (single document, not a collection
 
 ## Acceptance Criteria
 
-- [ ] All five pages read their text content via Keystatic singletons (`getStaticProps`)
-- [ ] Editing content via `/keystatic` admin UI and saving triggers a Vercel redeploy through GitHub
-- [ ] No content strings remain hardcoded in page components (only layout/structure code)
-- [ ] `draft/` folder content is migrated to corresponding `content/*.yaml` files with corrected image paths and content updated from current pages
-- [ ] At least 3 Aceternity UI components are live across the site (Spotlight, Card Hover, Moving Border minimum)
-- [ ] Framer Motion animated components use `dynamic()` import on SSR-sensitive sections
-- [ ] `npm run build` passes with no errors on Vercel
-- [ ] `/keystatic` admin route is accessible locally and in production (with GitHub auth)
-- [ ] Existing functionality (contact form, nav, footer, mobile hamburger) is unaffected
+- [x] All five pages read their text content via Keystatic singletons (`getStaticProps`)
+- [x] Editing content via `/keystatic` admin UI and saving triggers a Vercel redeploy through GitHub
+- [x] No content strings remain hardcoded in page components (only layout/structure code)
+- [x] `draft/` folder content is migrated to corresponding `content/*.yaml` files with corrected image paths and content updated from current pages
+- [x] At least 3 Aceternity UI components are live across the site (Spotlight, Card Hover, Moving Border minimum)
+- [x] Framer Motion animated components use `dynamic()` import on SSR-sensitive sections
+- [x] `npm run build` passes with no errors on Vercel
+- [x] `/keystatic` admin route is accessible locally and in production (with GitHub auth)
+- [x] Existing functionality (contact form, nav, footer, mobile hamburger) is unaffected
 
 ---
 
