@@ -121,40 +121,40 @@ export default function Services({ services }) {
         <section className="py-12 bg-white">
           <div className="max-w-6xl mx-auto px-4 space-y-8">
             {extraSections.map((section, idx) => {
-              if (section.discriminant === 'paragraph') {
+              if (section.type === 'paragraph') {
                 return (
                   <div key={idx}>
-                    {section.value.heading && (
-                      <h3 className="text-xl font-bold text-gray-900 mb-3">{section.value.heading}</h3>
+                    {section.heading && (
+                      <h3 className="text-xl font-bold text-gray-900 mb-3">{section.heading}</h3>
                     )}
-                    <p className="text-gray-700 leading-relaxed whitespace-pre-line">{section.value.text}</p>
+                    <p className="text-gray-700 leading-relaxed whitespace-pre-line">{section.text}</p>
                   </div>
                 )
               }
-              if (section.discriminant === 'imageBlock') {
-                const src = section.value.image
+              if (section.type === 'imageBlock') {
+                const src = section.image
                 return (
                   <figure key={idx} className="rounded-2xl overflow-hidden shadow-sm">
                     {src && (
                       <div className="relative w-full h-80">
                         <Image
                           src={src.startsWith('/') ? src : `/images/${src}`}
-                          alt={section.value.caption ?? ''}
+                          alt={section.caption ?? ''}
                           fill
                           className="object-cover"
                         />
                       </div>
                     )}
-                    {section.value.caption && (
-                      <figcaption className="px-4 py-2 text-sm text-gray-500 bg-gray-50">{section.value.caption}</figcaption>
+                    {section.caption && (
+                      <figcaption className="px-4 py-2 text-sm text-gray-500 bg-gray-50">{section.caption}</figcaption>
                     )}
                   </figure>
                 )
               }
-              if (section.discriminant === 'highlight') {
+              if (section.type === 'highlight') {
                 return (
                   <div key={idx} className="bg-blue-50 border-l-4 border-primary rounded-xl p-5">
-                    <p className="text-gray-700 whitespace-pre-line">{section.value.text}</p>
+                    <p className="text-gray-700 whitespace-pre-line">{section.text}</p>
                   </div>
                 )
               }

@@ -7,31 +7,31 @@ const imgField = (label) => fields.image({
   publicPath: '/images/',
 })
 
-// Reusable extra-sections blocks (paragraph / image+caption / highlight)
-const extraSectionsField = fields.blocks(
+// Reusable extra-sections array (paragraph / image+caption / highlight).
+// NOTE: fields.blocks() crashes Keystatic's internal schema traversal in v0.5.x,
+// so we use fields.array(fields.object()) with an explicit `type` select instead.
+const extraSectionsField = fields.array(
+  fields.object({
+    type: fields.select({
+      label: 'Art der Sektion',
+      options: [
+        { label: 'Textabschnitt', value: 'paragraph' },
+        { label: 'Bild mit Beschriftung', value: 'imageBlock' },
+        { label: 'Hinweisbox', value: 'highlight' },
+      ],
+      defaultValue: 'paragraph',
+    }),
+    // Paragraph / highlight fields
+    heading: fields.text({ label: 'Überschrift (bei Textabschnitt, optional)' }),
+    text: fields.text({ label: 'Text (bei Textabschnitt und Hinweisbox)', multiline: true }),
+    // Image block fields
+    image: imgField('Bild (bei Bildsektion)'),
+    caption: fields.text({ label: 'Beschriftung (bei Bildsektion, optional)' }),
+  }),
   {
-    paragraph: {
-      label: 'Textabschnitt',
-      schema: {
-        heading: fields.text({ label: 'Überschrift (optional)' }),
-        text: fields.text({ label: 'Text', multiline: true }),
-      },
-    },
-    imageBlock: {
-      label: 'Bild mit Beschriftung',
-      schema: {
-        image: imgField('Bild'),
-        caption: fields.text({ label: 'Beschriftung (optional)' }),
-      },
-    },
-    highlight: {
-      label: 'Hinweisbox',
-      schema: {
-        text: fields.text({ label: 'Text', multiline: true }),
-      },
-    },
-  },
-  { label: 'Zusätzliche Sektionen' }
+    label: 'Zusätzliche Sektionen',
+    itemLabel: (props) => props.fields.heading.value || props.fields.type.value,
+  }
 )
 
 export default config({
