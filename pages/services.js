@@ -3,6 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { createReader } from '@keystatic/core/reader'
 import keystaticConfig from '../keystatic.config'
+import { resolveImageSrc } from '../lib/utils'
 
 export async function getStaticProps() {
   const reader = createReader(process.cwd(), keystaticConfig)
@@ -21,6 +22,7 @@ export default function Services({ services }) {
 
   const spineProcs = operativeProcedures.filter(p => p.category === 'spine')
   const hipProcs = operativeProcedures.filter(p => p.category === 'hip')
+  const otherProcs = operativeProcedures.filter(p => p.category === 'other')
 
   return (
     <>
@@ -69,7 +71,9 @@ export default function Services({ services }) {
                   {spineProcs.map((op) => (
                     <div key={op.title} className="bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition-shadow">
                       <div className="relative h-64 bg-gray-50">
-                        <Image src={op.img.startsWith('/') ? op.img : `/images/${op.img}`} alt={op.title} fill className="object-contain p-2" sizes="(max-width: 640px) 100vw, 50vw" />
+                        {op.img && (
+                          <Image src={resolveImageSrc(op.img)} alt={op.title} fill className="object-contain p-2" sizes="(max-width: 640px) 100vw, 50vw" />
+                        )}
                       </div>
                       <div className="p-4">
                         <h4 className="font-semibold text-gray-900 mb-1">{op.title}</h4>
@@ -88,7 +92,9 @@ export default function Services({ services }) {
                   {hipProcs.map((op) => (
                     <div key={op.title} className="bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition-shadow">
                       <div className="relative h-64 bg-gray-50">
-                        <Image src={op.img.startsWith('/') ? op.img : `/images/${op.img}`} alt={op.title} fill className="object-contain p-2" sizes="(max-width: 640px) 100vw, 50vw" />
+                        {op.img && (
+                          <Image src={resolveImageSrc(op.img)} alt={op.title} fill className="object-contain p-2" sizes="(max-width: 640px) 100vw, 50vw" />
+                        )}
                       </div>
                       <div className="p-4">
                         <h4 className="font-semibold text-gray-900 mb-1">{op.title}</h4>
@@ -112,6 +118,27 @@ export default function Services({ services }) {
                 </ul>
               </div>
             )}
+
+            {otherProcs.length > 0 && (
+              <>
+                <h3 className="text-xl font-semibold text-primary mb-4 mt-8">Weitere Leistungen</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-10">
+                  {otherProcs.map((op) => (
+                    <div key={op.title} className="bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+                      <div className="relative h-64 bg-gray-50">
+                        {op.img && (
+                          <Image src={resolveImageSrc(op.img)} alt={op.title} fill className="object-contain p-2" sizes="(max-width: 640px) 100vw, 50vw" />
+                        )}
+                      </div>
+                      <div className="p-4">
+                        <h4 className="font-semibold text-gray-900 mb-1">{op.title}</h4>
+                        <p className="text-gray-600 text-sm">{op.desc}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
           </div>
         </div>
       </section>
@@ -132,13 +159,13 @@ export default function Services({ services }) {
                 )
               }
               if (section.type === 'imageBlock') {
-                const src = section.image
+                const src = resolveImageSrc(section.image)
                 return (
                   <figure key={idx} className="rounded-2xl overflow-hidden shadow-sm">
                     {src && (
                       <div className="relative w-full h-80">
                         <Image
-                          src={src.startsWith('/') ? src : `/images/${src}`}
+                          src={src}
                           alt={section.caption ?? ''}
                           fill
                           className="object-cover"

@@ -6,6 +6,7 @@ import { createReader } from '@keystatic/core/reader'
 import keystaticConfig from '../keystatic.config'
 import { Spotlight } from '../components/ui/Spotlight'
 import { WobbleCard } from '../components/ui/WobbleCard'
+import { resolveImageSrc } from '../lib/utils'
 
 // MovingBorder uses useAnimationFrame — must be client-side only
 const MovingBorder = dynamic(
@@ -22,6 +23,7 @@ export async function getStaticProps() {
 export default function Home({ home }) {
   const heroTitle = home?.heroTitle ?? 'Herzlich Willkommen in der Ordination Dr. Schöffmann!'
   const heroSubtitle = home?.heroSubtitle ?? 'Facharzt für Orthopädie und Traumatologie – Liebenfels'
+  const heroPortrait = resolveImageSrc(home?.heroPortrait) ?? '/images/thomas.png'
   const benefits = home?.benefits ?? []
   const ctaTitle = home?.ctaTitle ?? 'Machen Sie noch heute einen Termin'
   const ctaSubtitle = home?.ctaSubtitle ?? ''
@@ -47,10 +49,11 @@ export default function Home({ home }) {
         <div className="max-w-6xl mx-auto px-4 flex flex-col-reverse lg:flex-row items-center gap-8 lg:gap-10 relative z-10">
           <div className="flex-shrink-0 flex justify-center">
             <Image
-              src="/images/thomas.png"
+              src={heroPortrait}
               alt="Dr. Thomas Schöffmann"
               width={300}
               height={400}
+              priority
               className="object-cover rounded-xl shadow-xl"
             />
           </div>
@@ -88,7 +91,7 @@ export default function Home({ home }) {
                 {b.img && (
                   <div className="mb-4">
                     <Image
-                      src={b.img.startsWith('/') ? b.img : `/images/${b.img}`}
+                      src={resolveImageSrc(b.img)}
                       alt={b.title}
                       width={48}
                       height={48}

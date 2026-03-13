@@ -16,6 +16,10 @@ export default function Contact({ contact }) {
   const hours = contact?.hours ?? 'Ausschließlich nach vorheriger Terminvereinbarung'
   const arrivalInfo = contact?.arrivalInfo ?? ''
 
+  // Validate map URL: only allow Google Maps embeds (prevent open-redirect/XSS via iframe src)
+  const rawMapUrl = contact?.mapEmbedUrl ?? ''
+  const safeMapUrl = rawMapUrl.startsWith('https://www.google.com/maps/embed') ? rawMapUrl : null
+
   return (
     <>
       <Head>
@@ -77,15 +81,22 @@ export default function Contact({ contact }) {
 
               {/* Map */}
               <div className="rounded-2xl overflow-hidden shadow-md">
-                <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2734.3475924916957!2d14.2839469407867!3d46.73832814765176!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47706e709e1c1edb%3A0xe2d39fb3b4b847b7!2sFeldkirchner%20Str.%202%2C%209556%20Liebenfels!5e0!3m2!1sde!2sat!4v1772911334638!5m2!1sde!2sat"
-                  width="100%"
-                  height="300"
-                  style={{ border: 0 }}
-                  allowFullScreen=""
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                />
+                {safeMapUrl ? (
+                  <iframe
+                    src={safeMapUrl}
+                    width="100%"
+                    height="300"
+                    style={{ border: 0 }}
+                    allowFullScreen=""
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    title="Standort Ordination"
+                  />
+                ) : (
+                  <div className="h-[300px] flex items-center justify-center bg-gray-100 text-gray-400 text-sm">
+                    Karte nicht verfügbar
+                  </div>
+                )}
               </div>
             </div>
 
@@ -108,9 +119,9 @@ export default function Contact({ contact }) {
             <p>Information gemäß § 5 E-Commerce-Gesetz und Offenlegung gemäß § 25 Mediengesetz:</p>
             <p><strong>Diensteanbieter und Medieninhaber:</strong><br />
             Dr. Thomas Schöffmann<br />
-            Feldkrichnerstr. 2, 9556 Liebenfels<br />
-            Tel.: +43 676 4839648<br />
-            E-Mail: ordination@dr-schoeffmann.at<br />
+            {address}<br />
+            Tel.: {phone}<br />
+            E-Mail: {email}<br />
             Homepage: www.dr-schoeffmann.at</p>
             <p>Mitglied der Ärztekammer für Kärnten<br />
             Berufsbezeichnung: Facharzt für Orthopädie und Traumatologie (verliehen in Österreich)<br />

@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { createReader } from '@keystatic/core/reader'
 import { DocumentRenderer } from '@keystatic/core/renderer'
 import keystaticConfig from '../keystatic.config'
+import { resolveImageSrc } from '../lib/utils'
 
 export async function getStaticProps() {
   const reader = createReader(process.cwd(), keystaticConfig)
@@ -21,9 +22,11 @@ export async function getStaticProps() {
 export default function About({ about }) {
   const pageTitle = about?.pageTitle ?? 'Über mich'
   const pageSubtitle = about?.pageSubtitle ?? 'Dr. Thomas Schöffmann'
+  const portrait = resolveImageSrc(about?.portrait) ?? '/images/about.jpeg'
   const bioContent = about?.bioContent ?? []
   const education = about?.education ?? []
   const career = about?.career ?? []
+  const specializations = about?.specializations ?? []
   const memberships = about?.memberships ?? []
   const extraSections = about?.extraSections ?? []
 
@@ -47,9 +50,10 @@ export default function About({ about }) {
             <div className="md:col-span-1">
               <div className="relative w-full aspect-[3/4] rounded-2xl overflow-hidden shadow-lg sticky top-24">
                 <Image
-                  src="/images/about.jpeg"
+                  src={portrait}
                   alt="Dr. Thomas Schöffmann"
                   fill
+                  priority
                   className="object-cover object-top"
                   sizes="(max-width: 768px) 100vw, 33vw"
                 />
@@ -98,10 +102,18 @@ export default function About({ about }) {
                 </div>
               )}
 
-              <div className="bg-blue-50 rounded-xl p-5">
-                <h3 className="text-lg font-semibold text-primary mb-2">Klinische Schwerpunkte</h3>
-                <p className="text-gray-700">Konservative und operative Wirbelsäulenchirurgie sowie Hüftendoprothetik</p>
-              </div>
+              {specializations.length > 0 && (
+                <div className="bg-blue-50 rounded-xl p-5">
+                  <h3 className="text-lg font-semibold text-primary mb-2">Klinische Schwerpunkte</h3>
+                  <ul className="space-y-1">
+                    {specializations.map(s => (
+                      <li key={s.label} className="flex items-center gap-2 text-gray-700">
+                        <span className="text-accent">▸</span> {s.label}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </div>
           </div>
 
@@ -139,40 +151,40 @@ export default function About({ about }) {
           {extraSections.length > 0 && (
             <div className="mt-12 space-y-8">
               {extraSections.map((section, idx) => {
-                if (section.discriminant === 'paragraph') {
+                if (section.type === 'paragraph') {
                   return (
                     <div key={idx}>
-                      {section.value.heading && (
-                        <h3 className="text-xl font-bold text-gray-900 mb-3">{section.value.heading}</h3>
+                      {section.heading && (
+                        <h3 className="text-xl font-bold text-gray-900 mb-3">{section.heading}</h3>
                       )}
-                      <p className="text-gray-700 leading-relaxed whitespace-pre-line">{section.value.text}</p>
+                      <p className="text-gray-700 leading-relaxed whitespace-pre-line">{section.text}</p>
                     </div>
                   )
                 }
-                if (section.discriminant === 'imageBlock') {
-                  const src = section.value.image
+                if (section.type === 'imageBlock') {
+                  const src = resolveImageSrc(section.image)
                   return (
                     <figure key={idx} className="rounded-2xl overflow-hidden shadow-sm">
                       {src && (
                         <div className="relative w-full h-72">
                           <Image
-                            src={src.startsWith('/') ? src : `/images/${src}`}
-                            alt={section.value.caption ?? ''}
+                            src={src}
+                            alt={section.caption ?? ''}
                             fill
                             className="object-cover"
                           />
                         </div>
                       )}
-                      {section.value.caption && (
-                        <figcaption className="px-4 py-2 text-sm text-gray-500 bg-gray-50">{section.value.caption}</figcaption>
+                      {section.caption && (
+                        <figcaption className="px-4 py-2 text-sm text-gray-500 bg-gray-50">{section.caption}</figcaption>
                       )}
                     </figure>
                   )
                 }
-                if (section.discriminant === 'highlight') {
+                if (section.type === 'highlight') {
                   return (
                     <div key={idx} className="bg-blue-50 border-l-4 border-primary rounded-xl p-5">
-                      <p className="text-gray-700 whitespace-pre-line">{section.value.text}</p>
+                      <p className="text-gray-700 whitespace-pre-line">{section.text}</p>
                     </div>
                   )
                 }

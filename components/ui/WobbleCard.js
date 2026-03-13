@@ -1,10 +1,9 @@
-'use client'
-import { useRef, useState } from 'react'
-import { motion } from 'framer-motion'
+import { useMotionValue, useSpring, useTransform, motion } from 'framer-motion'
 import { cn } from '../../lib/utils'
 
 /**
  * Aceternity-style WobbleCard — 3-D perspective tilt following the cursor.
+ * Uses Framer Motion motion values + springs (zero React re-renders on mousemove).
  *
  * Props:
  *  containerClassName  – extra classes on the outer wrapper (use for gradient bg)
@@ -12,27 +11,26 @@ import { cn } from '../../lib/utils'
  *  children
  */
 export function WobbleCard({ containerClassName, className, children }) {
-  const containerRef = useRef(null)
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
-  const [isHovering, setIsHovering] = useState(false)
+  const rawX = useMotionValue(0)
+  const rawY = useMotionValue(0)
+  const scale = useSpring(1, { stiffness: 300, damping: 30 })
+  const rotateX = useSpring(useTransform(rawY, [-0.5, 0.5], [10, -10]), { stiffness: 300, damping: 30 })
+  const rotateY = useSpring(useTransform(rawX, [-0.5, 0.5], [-10, 10]), { stiffness: 300, damping: 30 })
 
   function handleMouseMove(e) {
-    const rect = containerRef.current?.getBoundingClientRect()
-    if (!rect) return
-    const relX = (e.clientX - rect.left) / rect.width - 0.5  // -0.5 … 0.5
-    const relY = (e.clientY - rect.top) / rect.height - 0.5
-    setMousePos({ x: relX, y: relY })
+    const rect = e.currentTarget.getBoundingClientRect()
+    rawX.set((e.clientX - rect.left) / rect.width - 0.5)
+    rawY.set((e.clientY - rect.top) / rect.height - 0.5)
   }
 
-  const rotateX = isHovering ? -mousePos.y * 20 : 0  // tilt up/down
-  const rotateY = isHovering ? mousePos.x * 20 : 0   // tilt left/right
+  function handleMouseEnter() { scale.set(1.02) }
+  function handleMouseLeave() { rawX.set(0); rawY.set(0); scale.set(1) }
 
   return (
     <motion.div
-      ref={containerRef}
       onMouseMove={handleMouseMove}
-      onMouseEnter={() => setIsHovering(true)}
-      onMouseLeave={() => { setIsHovering(false); setMousePos({ x: 0, y: 0 }) }}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
       style={{ perspective: 800 }}
       className={cn(
         'relative rounded-2xl overflow-hidden cursor-default select-none',
@@ -40,17 +38,9 @@ export function WobbleCard({ containerClassName, className, children }) {
       )}
     >
       <motion.div
-        animate={{
-          rotateX,
-          rotateY,
-          scale: isHovering ? 1.02 : 1,
-        }}
-        transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-        style={{ transformStyle: 'preserve-3d' }}
+        style={{ rotateX, rotateY, scale, transformStyle: 'preserve-3d' }}
         className={cn('relative z-10 h-full w-full p-8', className)}
       >
-        {/* Shimmer overlay */}
-        <div className="pointer-events-none absolute inset-0 rounded-2xl bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.12),transparent_60%)] opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
         {children}
       </motion.div>
     </motion.div>

@@ -34,6 +34,8 @@ const extraSectionsField = fields.array(
   }
 )
 
+// In production, log loudly if GitHub repo env vars are missing (prevents silent misconfiguration).\n// Uses console.error rather than throw so static builds don't fail when vars are absent locally.\nif (process.env.NODE_ENV === 'production') {\n  if (!process.env.GITHUB_REPO_OWNER) console.error('[keystatic] GITHUB_REPO_OWNER is not set — CMS writes will target wrong repo. Set this in Vercel env vars.')\n  if (!process.env.GITHUB_REPO_NAME) console.error('[keystatic] GITHUB_REPO_NAME is not set — CMS writes will target wrong repo. Set this in Vercel env vars.')\n}
+
 export default config({
   storage: {
     kind: process.env.NODE_ENV === 'production' ? 'github' : 'local',
@@ -51,6 +53,7 @@ export default config({
       schema: {
         heroTitle: fields.text({ label: 'Hero Titel' }),
         heroSubtitle: fields.text({ label: 'Hero Untertitel' }),
+        heroPortrait: imgField('Hero Porträtfoto'),
         benefits: fields.array(
           fields.object({
             img: imgField('Vorteil Bild'),
@@ -72,6 +75,7 @@ export default config({
       schema: {
         pageTitle: fields.text({ label: 'Seitentitel' }),
         pageSubtitle: fields.text({ label: 'Untertitel' }),
+        portrait: imgField('Porträtfoto'),
         bioContent: fields.document({
           label: 'Biografie',
           formatting: {
