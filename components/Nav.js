@@ -76,7 +76,7 @@ export default function Nav() {
               <Link
                 href="/contact"
                 onClick={() => setOpen(false)}
-                className="block bg-primary text-white text-sm font-medium px-4 py-2 rounded text-center mt-2 hover:bg-accent transition-colors"
+                className="block bg-btn-warm text-white text-sm font-medium px-4 py-2 rounded text-center mt-2 hover:bg-footer-brown transition-colors"
               >
                 Termin vereinbaren
               </Link>

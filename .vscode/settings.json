@@ -1,0 +1,6 @@
+{
+  "chat.tools.terminal.autoApprove": {
+    "bunx": true,
+    "npx @every-env": true
+  }
+}

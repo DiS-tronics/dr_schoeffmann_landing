@@ -1,16 +1,21 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import { useState } from 'react'
+import { createReader } from '@keystatic/core/reader'
+import keystaticConfig from '../keystatic.config'
 
-const images = [
-  { src: '/images/ordination1.jpg', alt: 'Ordination Ansicht 1' },
-  { src: '/images/ordination2.jpg', alt: 'Ordination Ansicht 2' },
-  { src: '/images/ordination3.jpg', alt: 'Ordination Ansicht 3' },
-  { src: '/images/ordination4.jpg', alt: 'Ordination Ansicht 4' },
-  { src: '/images/ordination5.jpg', alt: 'Ordination Ansicht 5' },
-]
+export async function getStaticProps() {
+  const reader = createReader(process.cwd(), keystaticConfig)
+  const ordination = await reader.singletons.ordination.read()
+  return { props: { ordination: ordination ?? null } }
+}
 
-export default function Ordination() {
+export default function Ordination({ ordination }) {
+  const pageTitle = ordination?.pageTitle ?? 'Ordination'
+  const pageSubtitle = ordination?.pageSubtitle ?? 'Eindrücke aus der Therapraxis Liebenfels'
+  const introText = ordination?.introText ?? ''
+  const images = ordination?.images ?? []
+
   const [selected, setSelected] = useState(null)
 
   return (
@@ -22,16 +27,18 @@ export default function Ordination() {
 
       <div className="bg-hero-beige py-16">
         <div className="max-w-6xl mx-auto px-4">
-          <h1 className="text-4xl font-bold text-footer-brown mb-3">Ordination</h1>
-          <p className="text-footer-brown text-lg">Eindrücke aus der Therapraxis Liebenfels</p>
+          <h1 className="text-4xl font-bold text-footer-brown mb-3">{pageTitle}</h1>
+          <p className="text-footer-brown text-lg">{pageSubtitle}</p>
         </div>
       </div>
 
       <section className="py-16">
         <div className="max-w-6xl mx-auto px-4">
-          <p className="text-gray-600 text-lg mb-10 text-center max-w-2xl mx-auto">
-            Hier einige Eindrücke von der Therapraxis. Wir freuen uns, Sie schon bald in unserer Ordination begrüßen zu dürfen!
-          </p>
+          {introText && (
+            <p className="text-gray-600 text-lg mb-10 text-center max-w-2xl mx-auto">
+              {introText}
+            </p>
+          )}
 
           {/* Gallery grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -42,7 +49,7 @@ export default function Ordination() {
                 className="relative aspect-video rounded-2xl overflow-hidden group shadow-sm hover:shadow-xl transition-shadow focus:outline-none focus:ring-2 focus:ring-accent"
               >
                 <Image
-                  src={img.src}
+                  src={img.src.startsWith('/') ? img.src : `/images/${img.src}`}
                   alt={img.alt}
                   fill
                   className="object-cover group-hover:scale-105 transition-transform duration-300"
@@ -65,7 +72,7 @@ export default function Ordination() {
         >
           <div className="relative max-w-4xl w-full max-h-[90vh] aspect-video" onClick={e => e.stopPropagation()}>
             <Image
-              src={images[selected].src}
+              src={images[selected].src.startsWith('/') ? images[selected].src : `/images/${images[selected].src}`}
               alt={images[selected].alt}
               fill
               className="object-contain"

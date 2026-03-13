@@ -1,26 +1,40 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
+import dynamic from 'next/dynamic'
+import { createReader } from '@keystatic/core/reader'
+import keystaticConfig from '../keystatic.config'
+import { Spotlight } from '../components/ui/Spotlight'
+import { WobbleCard } from '../components/ui/WobbleCard'
+import { resolveImageSrc } from '../lib/utils'
 
-const benefits = [
-  {
-    img: '/images/benefits1.png',
-    title: 'Beste Versorgung',
-    desc: 'Ausreichend Zeit für Ihre Anliegen — wir nehmen uns Zeit für Sie.',
-  },
-  {
-    img: '/images/benefits2.png',
-    title: 'Schmerztherapie vor Ort',
-    desc: 'Infiltration und Blockaden direkt in der Ordination.',
-  },
-  {
-    img: '/images/benefits3.png',
-    title: 'Ausführliche Aufklärung',
-    desc: 'Verständliche Erklärung von Diagnose und allen Therapiemöglichkeiten.',
-  },
-]
+// MovingBorder uses useAnimationFrame — must be client-side only
+const MovingBorder = dynamic(
+  () => import('../components/ui/MovingBorder').then(m => m.MovingBorder),
+  { ssr: false }
+)
 
-export default function Home() {
+export async function getStaticProps() {
+  const reader = createReader(process.cwd(), keystaticConfig)
+  const home = await reader.singletons.home.read()
+  return { props: { home: home ?? null } }
+}
+
+export default function Home({ home }) {
+  const heroTitle = home?.heroTitle ?? 'Herzlich Willkommen in der Ordination Dr. Schöffmann!'
+  const heroSubtitle = home?.heroSubtitle ?? 'Facharzt für Orthopädie und Traumatologie – Liebenfels'
+  const heroPortrait = resolveImageSrc(home?.heroPortrait) ?? '/images/thomas.png'
+  const benefits = home?.benefits ?? []
+  const ctaTitle = home?.ctaTitle ?? 'Machen Sie noch heute einen Termin'
+  const ctaSubtitle = home?.ctaSubtitle ?? ''
+
+  // Distinct gradient per card slot (cycles if more/fewer than 3 cards)
+  const gradients = [
+    'bg-gradient-to-br from-card-blue to-[#88a7d8]',
+    'bg-gradient-to-br from-card-teal to-[#73b5af]',
+    'bg-gradient-to-br from-card-purple to-[#88768b]',
+  ]
+
   return (
     <>
       <Head>
@@ -29,28 +43,30 @@ export default function Home() {
         <link rel="icon" href="/icon.png" />
       </Head>
 
-      {/* Hero */}
-      <div className="bg-hero-beige py-12 lg:py-24">
-        <div className="max-w-6xl mx-auto px-4 flex flex-col-reverse lg:flex-row items-center gap-8 lg:gap-10">
+      {/* Hero with Spotlight */}
+      <div className="bg-hero-beige py-12 lg:py-24 relative overflow-hidden">
+        <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="#0F5BB5" />
+        <div className="max-w-6xl mx-auto px-4 flex flex-col-reverse lg:flex-row items-center gap-8 lg:gap-10 relative z-10">
           <div className="flex-shrink-0 flex justify-center">
             <Image
-              src="/images/thomas.png"
+              src={heroPortrait}
               alt="Dr. Thomas Schöffmann"
               width={300}
               height={400}
+              priority
               className="object-cover rounded-xl shadow-xl"
             />
           </div>
           <div className="flex-1 text-center">
             <h1 className="text-footer-brown text-4xl md:text-4xl font-bold leading-tight mb-6">
-              Herzlich Willkommen in der<br className="hidden md:block" /> Ordination <span className="whitespace-nowrap">Dr. Schöffmann</span>!
+              {heroTitle}
             </h1>
             <p className="text-footer-brown text-xl mb-10">
-              Facharzt für Orthopädie und Traumatologie – Liebenfels
+              {heroSubtitle}
             </p>
             <Link
               href="/about"
-              className="inline-block bg-footer-brown text-hero-beige font-bold px-10 py-4 rounded-xl hover:bg-gray-700 transition-colors text-lg shadow-lg"
+              className="inline-block bg-btn-warm text-hero-beige font-bold px-10 py-4 rounded-xl hover:bg-footer-brown transition-colors text-lg shadow-lg"
             >
               Weiterlesen
             </Link>
@@ -58,7 +74,7 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Benefits */}
+      {/* Benefits with WobbleCard */}
       <section className="py-16 bg-gray-50">
         <div className="max-w-6xl mx-auto px-4">
           <h2 className="text-3xl font-bold text-center text-gray-900 mb-4">Unsere Vorteile für Sie</h2>
@@ -66,32 +82,38 @@ export default function Home() {
             Als Facharzt für Orthopädie und Traumatologie decke ich das Spektrum der degenerativen Erkrankungen
             des Bewegungsapparates sowie das akute Spektrum der Unfallchirurgie ab.
           </p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {benefits.map((b) => (
-              <div key={b.title} className="bg-white rounded-2xl shadow-sm p-6 flex flex-col items-center text-center hover:shadow-md transition-shadow">
-                <div className="w-20 h-20 relative mb-4">
-                  <Image src={b.img} alt={b.title} fill className="object-contain" sizes="80px" />
-                </div>
-                <h3 className="text-lg font-semibold text-primary mb-2">{b.title}</h3>
-                <p className="text-gray-600 text-sm leading-relaxed">{b.desc}</p>
-              </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {benefits.map((b, i) => (
+              <WobbleCard
+                key={b.title}
+                containerClassName={`${gradients[i % gradients.length]} min-h-[220px]`}
+              >
+                {b.img && (
+                  <div className="mb-4">
+                    <Image
+                      src={resolveImageSrc(b.img)}
+                      alt={b.title}
+                      width={48}
+                      height={48}
+                      className="object-contain"
+                    />
+                  </div>
+                )}
+                <h3 className="text-xl font-bold text-white mb-2">{b.title}</h3>
+                <p className="text-white/80 text-sm leading-relaxed">{b.desc}</p>
+              </WobbleCard>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA Banner */}
+      {/* CTA Banner with Moving Border */}
       <section className="py-16 bg-banner-gray">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold text-white mb-4">Machen Sie noch heute einen Termin</h2>
-          <p className="text-white text-lg mb-8 max-w-2xl mx-auto">
-            Haben Sie akute Schmerzen? Wir werden versuchen, Sie umgehend zu behandeln. Kurzfristige Termine sind möglich!
-          </p>
-          <Link
-            href="/contact"
-            className="inline-block bg-white text-banner-gray font-bold px-10 py-4 rounded-xl hover:bg-gray-100 transition-colors text-lg shadow-lg"
-          >
-            Jetzt Termin vereinbaren
+          <h2 className="text-3xl font-bold text-white mb-4">{ctaTitle}</h2>
+          <p className="text-white text-lg mb-8 max-w-2xl mx-auto">{ctaSubtitle}</p>
+          <Link href="/contact" className="inline-block bg-btn-warm text-white font-bold px-8 py-3 rounded-xl hover:bg-footer-brown transition-colors">
+              Jetzt Termin vereinbaren
           </Link>
         </div>
       </section>
