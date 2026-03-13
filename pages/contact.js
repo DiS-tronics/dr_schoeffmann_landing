@@ -15,6 +15,12 @@ export default function Contact({ contact }) {
   const email = contact?.email ?? 'ordination@dr-schoeffmann.at'
   const hours = contact?.hours ?? 'Ausschließlich nach vorheriger Terminvereinbarung'
   const arrivalInfo = contact?.arrivalInfo ?? ''
+  const impressumDoctorName = contact?.impressumDoctorName
+  const impressumHomepage = contact?.impressumHomepage
+  const impressumMembership = contact?.impressumMembership
+  const impressumProfession = contact?.impressumProfession
+  const impressumLegalNote = contact?.impressumLegalNote
+  const impressumLegalNoteUrl = contact?.impressumLegalNoteUrl
 
   // Validate map URL: only allow Google Maps embeds (prevent open-redirect/XSS via iframe src)
   const rawMapUrl = contact?.mapEmbedUrl ?? ''
@@ -128,14 +134,14 @@ export default function Contact({ contact }) {
           <div className="text-gray-600 text-sm space-y-2 prose-content">
             <p>Information gemäß § 5 E-Commerce-Gesetz und Offenlegung gemäß § 25 Mediengesetz:</p>
             <p><strong>Diensteanbieter und Medieninhaber:</strong><br />
-            Dr. Thomas Schöffmann<br />
+            {impressumDoctorName}<br />
             {address}<br />
             Tel.: {phone}<br />
             E-Mail: {email}<br />
-            Homepage: www.dr-schoeffmann.at</p>
-            <p>Mitglied der Ärztekammer für Kärnten<br />
-            Berufsbezeichnung: Facharzt für Orthopädie und Traumatologie (verliehen in Österreich)<br />
-            Tätigkeit unterliegt dem Ärztegesetz 1998 (<a href="http://www.ris.bka.gv.at/bundesrecht" className="text-primary hover:text-accent" target="_blank" rel="noreferrer">www.ris.bka.gv.at</a>)</p>
+            Homepage: {impressumHomepage}</p>
+            <p>{impressumMembership}<br />
+            Berufsbezeichnung: {impressumProfession}</p>
+            <p>{impressumLegalNote}{impressumLegalNoteUrl && (<> (<a href={impressumLegalNoteUrl} className="text-primary hover:text-accent" target="_blank" rel="noreferrer">{impressumLegalNoteUrl.replace(/^https?:\/\//, '')}</a>)</>)}</p>
           </div>
         </div>
       </section>

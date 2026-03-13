@@ -1,4 +1,4 @@
-import { config, singleton, fields } from '@keystatic/core'
+import { config, singleton, collection, fields } from '@keystatic/core'
 
 // Reusable image field factory — images live in public/images/
 const imgField = (label) => fields.image({
@@ -191,6 +191,36 @@ export default config({
         hours: fields.text({ label: 'Ordinationszeiten' }),
         arrivalInfo: fields.text({ label: 'Anfahrt Information', multiline: true }),
         mapEmbedUrl: fields.url({ label: 'Google Maps Embed URL (optional)' }),
+        // Impressum
+        impressumDoctorName: fields.text({ label: 'Impressum – Name des Arztes' }),
+        impressumHomepage: fields.text({ label: 'Impressum – Homepage (ohne https://)' }),
+        impressumMembership: fields.text({ label: 'Impressum – Kammermitgliedschaft', multiline: true }),
+        impressumProfession: fields.text({ label: 'Impressum – Berufsbezeichnung' }),
+        impressumLegalNote: fields.text({ label: 'Impressum – Rechtlicher Hinweis (Ärztegesetz etc.)', multiline: true }),
+        impressumLegalNoteUrl: fields.url({ label: 'Impressum – Link zur Rechtsquelle (optional)' }),
+      },
+    }),
+  },
+
+  collections: {
+    pages: collection({
+      label: 'Seiten',
+      slugField: 'title',
+      path: 'content/pages/*',
+      format: { contentField: 'content' },
+      schema: {
+        title: fields.slug({ name: { label: 'Titel' } }),
+        content: fields.document({
+          label: 'Inhalt',
+          formatting: {
+            inlineMarks: { bold: true, italic: true, underline: true },
+            listTypes: { ordered: true, unordered: true },
+            headingLevels: [2, 3],
+            blockTypes: { blockquote: true },
+            softBreaks: true,
+          },
+          links: true,
+        }),
       },
     }),
   },
