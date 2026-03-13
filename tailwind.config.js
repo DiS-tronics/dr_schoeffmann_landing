@@ -13,6 +13,10 @@ module.exports = {
         'footer-brown': '#5C5651',
         'hero-beige': '#DBD4CE',
         'banner-gray': '#92A1B7',
+        'btn-warm': '#898179',
+        'card-blue': '#5582C8',
+        'card-teal': '#51A39C',
+        'card-purple': '#6B556E',
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],

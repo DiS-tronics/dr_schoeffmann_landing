@@ -30,9 +30,9 @@ export default function Home({ home }) {
 
   // Distinct gradient per card slot (cycles if more/fewer than 3 cards)
   const gradients = [
-    'bg-gradient-to-br from-primary to-blue-800',
-    'bg-gradient-to-br from-teal-600 to-teal-900',
-    'bg-gradient-to-br from-slate-600 to-slate-900',
+    'bg-gradient-to-br from-card-blue to-[#3d6099]',
+    'bg-gradient-to-br from-card-teal to-[#38706b]',
+    'bg-gradient-to-br from-card-purple to-[#4a3a4d]',
   ]
 
   return (
@@ -66,7 +66,7 @@ export default function Home({ home }) {
             </p>
             <Link
               href="/about"
-              className="inline-block bg-footer-brown text-hero-beige font-bold px-10 py-4 rounded-xl hover:bg-gray-700 transition-colors text-lg shadow-lg"
+              className="inline-block bg-btn-warm text-hero-beige font-bold px-10 py-4 rounded-xl hover:bg-footer-brown transition-colors text-lg shadow-lg"
             >
               Weiterlesen
             </Link>

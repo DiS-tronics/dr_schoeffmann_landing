@@ -43,7 +43,7 @@ export default function Services({ services }) {
       <section className="py-12 bg-white">
         <div className="max-w-6xl mx-auto px-4">
           {introText && (
-            <div className="bg-blue-50 rounded-2xl p-8 mb-10">
+            <div className="bg-hero-beige/40 rounded-2xl p-8 mb-10">
               <p className="text-gray-700 text-lg leading-relaxed">{introText}</p>
             </div>
           )}
@@ -196,8 +196,8 @@ export default function Services({ services }) {
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-2xl font-bold text-white mb-4">Termin vereinbaren</h2>
           <p className="text-white mb-6">Für alle Leistungen ausschließlich nach vorheriger Terminvereinbarung</p>
-          <Link href="/contact" className="inline-block bg-white text-banner-gray font-bold px-8 py-3 rounded-xl hover:bg-gray-100 transition-colors">
-            Jetzt Termin anfragen →
+          <Link href="/contact" className="inline-block bg-btn-warm text-hero-beige font-bold px-8 py-3 rounded-xl hover:bg-footer-brown transition-colors">
+            Jetzt Termin anfragen
           </Link>
         </div>
       </section>

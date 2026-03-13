@@ -43,7 +43,7 @@ export function MovingBorder({ children, duration = 2000, rx = '30%', ry = '30%'
       </span>
       <span
         className={cn(
-          'relative inline-flex h-full w-full items-center justify-center rounded-[calc(0.75rem-1px)] bg-footer-brown text-hero-beige font-bold px-10 py-4 text-lg backdrop-blur-3xl',
+          'relative inline-flex h-full w-full items-center justify-center rounded-[calc(0.75rem-1px)] bg-btn-warm text-hero-beige font-bold px-10 py-4 text-lg backdrop-blur-3xl',
           className
         )}
       >
