@@ -34,7 +34,12 @@ const extraSectionsField = fields.array(
   }
 )
 
-// In production, log loudly if GitHub repo env vars are missing (prevents silent misconfiguration).\n// Uses console.error rather than throw so static builds don't fail when vars are absent locally.\nif (process.env.NODE_ENV === 'production') {\n  if (!process.env.GITHUB_REPO_OWNER) console.error('[keystatic] GITHUB_REPO_OWNER is not set — CMS writes will target wrong repo. Set this in Vercel env vars.')\n  if (!process.env.GITHUB_REPO_NAME) console.error('[keystatic] GITHUB_REPO_NAME is not set — CMS writes will target wrong repo. Set this in Vercel env vars.')\n}
+// In production, log loudly if GitHub repo env vars are missing (prevents silent misconfiguration).
+// Uses console.error rather than throw so static builds don't fail when vars are absent locally.
+if (process.env.NODE_ENV === 'production') {
+  if (!process.env.GITHUB_REPO_OWNER) console.error('[keystatic] GITHUB_REPO_OWNER is not set — CMS writes will target wrong repo. Set this in Vercel env vars.')
+  if (!process.env.GITHUB_REPO_NAME) console.error('[keystatic] GITHUB_REPO_NAME is not set — CMS writes will target wrong repo. Set this in Vercel env vars.')
+}
 
 export default config({
   storage: {

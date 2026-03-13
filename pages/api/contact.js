@@ -3,6 +3,14 @@ const rateLimitMap = new Map()
 const RATE_LIMIT = 5
 const WINDOW_MS = 10 * 60 * 1000
 
+// Evict stale entries every 15 minutes to prevent unbounded memory growth
+setInterval(() => {
+  const cutoff = Date.now() - WINDOW_MS
+  for (const [ip, entry] of rateLimitMap) {
+    if (entry.windowStart < cutoff) rateLimitMap.delete(ip)
+  }
+}, 15 * 60 * 1000)
+
 function isRateLimited(ip) {
   const now = Date.now()
   const entry = rateLimitMap.get(ip) ?? { count: 0, windowStart: now }
@@ -22,8 +30,11 @@ export default function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' })
   }
 
-  // Rate limiting
-  const ip = req.headers['x-forwarded-for']?.split(',')[0]?.trim() ?? req.socket.remoteAddress ?? 'unknown'
+  // Rate limiting — use x-real-ip (Vercel trusted header) or last x-forwarded-for entry
+  // First entry in x-forwarded-for is client-controlled and can be spoofed
+  const xRealIp = req.headers['x-real-ip']
+  const xForwardedFor = req.headers['x-forwarded-for']
+  const ip = xRealIp ?? xForwardedFor?.split(',').at(-1)?.trim() ?? req.socket.remoteAddress ?? 'unknown'
   if (isRateLimited(ip)) {
     return res.status(429).json({ error: 'Zu viele Anfragen. Bitte versuchen Sie es später.' })
   }
@@ -56,6 +67,7 @@ export default function handler(req, res) {
       fetch(webhookUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        redirect: 'error',  // prevent SSRF via redirect chains to internal services
         body: JSON.stringify({
           name: name.trim(),
           email,

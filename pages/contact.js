@@ -20,6 +20,10 @@ export default function Contact({ contact }) {
   const rawMapUrl = contact?.mapEmbedUrl ?? ''
   const safeMapUrl = rawMapUrl.startsWith('https://www.google.com/maps/embed') ? rawMapUrl : null
 
+  // Sanitize phone/email before use in tel:/mailto: hrefs
+  const safePhone = /^[\d\s+\-().\/]+$/.test(phone) ? phone : null
+  const safeEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ? email : null
+
   return (
     <>
       <Head>
@@ -53,14 +57,20 @@ export default function Contact({ contact }) {
                   <div className="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center flex-shrink-0 text-primary text-lg">📞</div>
                   <div>
                     <div className="font-semibold text-gray-900">Telefon</div>
-                    <a href={`tel:${phone.replace(/\s/g, '')}`} className="text-primary hover:text-accent">{phone}</a>
+                    {safePhone
+                      ? <a href={`tel:${safePhone.replace(/\s/g, '')}`} className="text-primary hover:text-accent">{phone}</a>
+                      : <span className="text-gray-600">{phone}</span>
+                    }
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
                   <div className="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center flex-shrink-0 text-primary text-lg">✉️</div>
                   <div>
                     <div className="font-semibold text-gray-900">E-Mail</div>
-                    <a href={`mailto:${email}`} className="text-primary hover:text-accent">{email}</a>
+                    {safeEmail
+                      ? <a href={`mailto:${safeEmail}`} className="text-primary hover:text-accent">{email}</a>
+                      : <span className="text-gray-600">{email}</span>
+                    }
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
