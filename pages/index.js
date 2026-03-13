@@ -30,9 +30,9 @@ export default function Home({ home }) {
 
   // Distinct gradient per card slot (cycles if more/fewer than 3 cards)
   const gradients = [
-    'bg-gradient-to-br from-card-blue to-[#3d6099]',
-    'bg-gradient-to-br from-card-teal to-[#38706b]',
-    'bg-gradient-to-br from-card-purple to-[#4a3a4d]',
+    'bg-gradient-to-br from-card-blue to-[#88a7d8]',
+    'bg-gradient-to-br from-card-teal to-[#73b5af]',
+    'bg-gradient-to-br from-card-purple to-[#88768b]',
   ]
 
   return (
@@ -112,10 +112,8 @@ export default function Home({ home }) {
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold text-white mb-4">{ctaTitle}</h2>
           <p className="text-white text-lg mb-8 max-w-2xl mx-auto">{ctaSubtitle}</p>
-          <Link href="/contact" className="inline-block">
-            <MovingBorder containerClassName="rounded-xl">
+          <Link href="/contact" className="inline-block bg-btn-warm text-white font-bold px-8 py-3 rounded-xl hover:bg-footer-brown transition-colors">
               Jetzt Termin vereinbaren
-            </MovingBorder>
           </Link>
         </div>
       </section>

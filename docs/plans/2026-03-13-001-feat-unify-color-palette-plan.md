@@ -1,7 +1,7 @@
 ---
 title: "feat: Unify color palette across all pages and components"
 type: feat
-status: active
+status: completed
 date: 2026-03-13
 origin: docs/brainstorms/2026-03-13-color-palette-unification-brainstorm.md
 ---
@@ -18,16 +18,16 @@ See brainstorm: [docs/brainstorms/2026-03-13-color-palette-unification-brainstor
 
 ## Acceptance Criteria
 
-- [ ] WobbleCard 1 ("Beste Versorgung") background: `#5582C8`
-- [ ] WobbleCard 2 ("Schmerztherapie vor Ort") background: `#51A39C`
-- [ ] WobbleCard 3 ("Ausführliche Aufklärung") background: `#6B556E`
-- [ ] All three WobbleCards use multi-step gradients, adjusted accordingingly to the new background color defined
-- [ ] New Tailwind token `btn-warm: '#898179'` added to `tailwind.config.js`
-- [ ] All primary CTA buttons: bg `#898179` (`btn-warm`), text `#DBD4CE` (`hero-beige`), hover bg `#5C5651` (`footer-brown`)
-- [ ] "Jetzt Termin anfragen ->" button in services, should be changed to "Jetzt Termin anfragen"
-- [ ] Contact form submit button "Nachricht senden": uses new button style (no more `bg-primary hover:bg-accent`)
-- [ ] Text links (`text-primary` / `hover:text-accent`) on contact page unchanged — keep blue for hyperlink convention
-- [ ] Build passes, no console errors
+- [x] WobbleCard 1 ("Beste Versorgung") background: `#5582C8`
+- [x] WobbleCard 2 ("Schmerztherapie vor Ort") background: `#51A39C`
+- [x] WobbleCard 3 ("Ausführliche Aufklärung") background: `#6B556E`
+- [x] All three WobbleCards use multi-step gradients, adjusted accordingingly to the new background color defined
+- [x] New Tailwind token `btn-warm: '#898179'` added to `tailwind.config.js`
+- [x] All primary CTA buttons: bg `#898179` (`btn-warm`), text `#DBD4CE` (`hero-beige`), hover bg `#5C5651` (`footer-brown`)
+- [x] "Jetzt Termin anfragen ->" button in services, should be changed to "Jetzt Termin anfragen"
+- [x] Contact form submit button "Nachricht senden": uses new button style (no more `bg-primary hover:bg-accent`)
+- [x] Text links (`text-primary` / `hover:text-accent`) on contact page unchanged — keep blue for hyperlink convention
+- [x] Build passes, no console errors
 
 ---
 
@@ -78,16 +78,6 @@ Update inner `<span>` background (line ~46):
 ```
 
 ### 4. `pages/services.js`
-
-**Intro box** (line ~46):
-
-```jsx
-// Before
-<div className="bg-blue-50 rounded-2xl p-8 mb-10">
-
-// After
-<div className="bg-hero-beige/40 rounded-2xl p-8 mb-10">
-```
 
 **Termin CTA button** (line ~199) — inside a `bg-banner-gray` section:
 
