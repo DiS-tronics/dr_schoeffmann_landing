@@ -37,16 +37,16 @@ const extraSectionsField = fields.array(
 // In production, log loudly if GitHub repo env vars are missing (prevents silent misconfiguration).
 // Uses console.error rather than throw so static builds don't fail when vars are absent locally.
 if (process.env.NODE_ENV === 'production') {
-  if (!process.env.GITHUB_REPO_OWNER) console.error('[keystatic] GITHUB_REPO_OWNER is not set — CMS writes will target wrong repo. Set this in Vercel env vars.')
-  if (!process.env.GITHUB_REPO_NAME) console.error('[keystatic] GITHUB_REPO_NAME is not set — CMS writes will target wrong repo. Set this in Vercel env vars.')
+  if (!process.env.NEXT_PUBLIC_GITHUB_REPO_OWNER) console.error('[keystatic] NEXT_PUBLIC_GITHUB_REPO_OWNER is not set — CMS writes will target wrong repo. Set this in Vercel env vars.')
+  if (!process.env.NEXT_PUBLIC_GITHUB_REPO_NAME) console.error('[keystatic] NEXT_PUBLIC_GITHUB_REPO_NAME is not set — CMS writes will target wrong repo. Set this in Vercel env vars.')
 }
 
 export default config({
   storage: {
     kind: process.env.NODE_ENV === 'production' ? 'github' : 'local',
     repo: {
-      owner: process.env.GITHUB_REPO_OWNER || 'owner',
-      name: process.env.GITHUB_REPO_NAME || 'dr_schoeffmann_cms',
+      owner: process.env.NEXT_PUBLIC_GITHUB_REPO_OWNER || 'DiS-tronics',
+      name: process.env.NEXT_PUBLIC_GITHUB_REPO_NAME || 'dr_schoeffmann_landing',
     },
   },
 
