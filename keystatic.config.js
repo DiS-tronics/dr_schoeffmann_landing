@@ -45,8 +45,8 @@ export default config({
   storage: {
     kind: process.env.NODE_ENV === 'production' ? 'github' : 'local',
     repo: {
-      owner: process.env.GITHUB_REPO_OWNER || 'owner',
-      name: process.env.GITHUB_REPO_NAME || 'dr_schoeffmann_cms',
+      owner: process.env.GITHUB_REPO_OWNER || 'DiS-tronics',
+      name: process.env.GITHUB_REPO_NAME || 'dr_schoeffmann_landing',
     },
   },
 
