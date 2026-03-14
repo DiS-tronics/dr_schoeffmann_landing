@@ -6,7 +6,7 @@ Website für die Ordination Dr. Thomas Schöffmann – Facharzt für Orthopädie
 
 | Layer | Technology |
 |---|---|
-| Framework | Next.js 14 (Pages Router) |
+| Framework | Next.js 16 (Pages Router for site pages, App Router for Keystatic) |
 | CMS | [Keystatic](https://keystatic.com) – git-backed, admin UI at `/keystatic` |
 | Animations | [Framer Motion](https://www.framer.com/motion/) + Aceternity UI components |
 | Styling | Tailwind CSS 3 |
@@ -34,10 +34,15 @@ content/          # CMS-managed content (YAML + mdoc)
   about.mdoc      # About page (bio, career, education) – rich text body
   services.yaml   # Services & operative procedures
   ordination.yaml # Ordination gallery
-  contact.yaml    # Contact information
+  contact.yaml    # Contact information + Impressum fields
+  pages/          # Dynamic pages created via CMS
+app/              # App Router (Keystatic UI + API only)
+  keystatic/      # Keystatic admin dashboard
+  api/keystatic/  # Keystatic API route handler
 components/
   ui/             # Aceternity UI components (WobbleCard, Spotlight, MovingBorder)
 pages/            # Next.js pages (all use getStaticProps + Keystatic reader)
+  [slug].js       # Dynamic route for CMS-managed pages collection
 public/images/    # All static images (uploaded via CMS or manually)
 ```
 
@@ -53,7 +58,8 @@ Open `/keystatic` in the browser (local or production) to edit content.
 | **Über mich** | Rich-text biography (bold, italic, lists, headings), education, career, memberships, and flexible extra sections |
 | **Leistungen** | Intro text, service list, operative procedures (image upload), and flexible extra sections |
 | **Ordination** | Gallery images (image upload with drag-and-drop), page text |
-| **Kontakt** | Address, phone, email, opening hours, arrival info |
+| **Kontakt** | Address, phone, email, opening hours, arrival info, Impressum fields |
+| **Seiten** | Dynamic pages — create new pages with a URL slug and rich-text body |
 
 ### Adding flexible content (extra sections)
 
@@ -89,18 +95,24 @@ Go to **Vercel → Project → Settings → Environment Variables** and add:
 
 Set all five variables for the **Production** environment (and optionally Preview).
 
-### 3. Create a GitHub OAuth App
+### 3. Create a GitHub App
 
-This allows Keystatic to authenticate you when editing content on the live site.
+Keystatic requires a **GitHub App** (not an OAuth App) because it uses short-lived tokens with refresh support. An OAuth App returns no `refresh_token`, causing persistent 401 errors on the `/api/keystatic/github/refresh-token` endpoint.
 
-1. Go to **GitHub → Settings → Developer settings → OAuth Apps → New OAuth App**
+1. Go to **GitHub → Settings → Developer settings → GitHub Apps → New GitHub App**
 2. Fill in:
-   - **Application name**: `Dr. Schöffmann CMS`
+   - **GitHub App name**: `dr-schoeffmann-keystatic` (or any unique name)
    - **Homepage URL**: `https://your-domain.vercel.app`
-   - **Authorization callback URL**: `https://your-domain.vercel.app/api/keystatic/github/oauth/callback`
-3. Click **Register application**
-4. Copy the **Client ID** → paste as `KEYSTATIC_GITHUB_CLIENT_ID`
-5. Click **Generate a new client secret** → paste as `KEYSTATIC_GITHUB_CLIENT_SECRET`
+   - **User authorization callback URL**: `https://your-domain.vercel.app/api/keystatic/github/oauth/callback`
+   - Uncheck **Active** under Webhook
+3. Set **Repository permissions**: `Contents: Read & write`, `Pull requests: Read & write`
+4. Under **Where can this GitHub App be installed?** → select **Only on this account**
+5. Click **Create GitHub App**
+6. Copy the **Client ID** (format: `Iv1.xxxxxxxx`) → paste as `KEYSTATIC_GITHUB_CLIENT_ID`
+7. Click **Generate a new client secret** → paste as `KEYSTATIC_GITHUB_CLIENT_SECRET`
+8. In the sidebar, click **Install App** and install it on the `dr_schoeffmann_landing` repository
+
+> ⚠️ Using a GitHub OAuth App instead of a GitHub App will result in persistent 401 errors on the live site, because OAuth Apps do not issue refresh tokens.
 
 ### 4. Generate `KEYSTATIC_SECRET`
 
